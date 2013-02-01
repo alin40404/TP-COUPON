@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link href="__PUBLIC__/Css/Admin/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">var _public_='__PUBLIC__';</script>
+<script type="text/javascript" src="__PUBLIC__/Js/common.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerTool/1.2/src/MarkerTool_min.js"></script>
+</head>
+
+<body style="background-color:#FFF; margin:0px; padding:0px; overflow:hidden;">
+<center>
+<div style="width:760px;height:450px;border:1px solid gray" id="container"></div>
+</center>
+<script type="text/javascript">
+<!--{literal}-->
+function GetQueryString(name)
+{
+	var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if (r!=null) return decodeURIComponent(r[2]);
+	return null;
+}
+var c_city = GetQueryString('city');
+var longitude = GetQueryString('longitude');
+var latitude = GetQueryString('latitude');
+var m_pos = null;
+
+var map = new BMap.Map("container"); // 创建地图实例
+map.addControl(new BMap.NavigationControl());  //添加平移缩放控件
+map.addControl(new BMap.MapTypeControl());  //添加地图类型控件，地图或三维地图
+map.setCurrentCity(c_city); // 仅当设置城市信息时，MapTypeControl的切换功能才能可用
+map.enableScrollWheelZoom();//启用滚轮放大缩小
+var point = null;
+if(longitude != 0 && latitude != 0){
+	point = new BMap.Point(longitude, latitude); // 创建点坐标
+	map.centerAndZoom(point, 15);
+	var marker = new BMap.Marker(point);        // 创建标注  
+	map.addOverlay(marker);                     // 将标注添加到地图
+}else{
+	map.centerAndZoom(c_city); // 初始化地图，设置中心点坐标和地图级别
+}
+<!--{/literal}-->
+</script>
+</body>
+</html>

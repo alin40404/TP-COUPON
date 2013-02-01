@@ -1,0 +1,81 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post" enctype="multipart/form-data">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody><tr>
+		<th width="200" class="first">网站名称：</th>
+		<td><input name="site_name" type="text"  size="40" class="textinput requireinput required" value="{$link.site_name}" /></td>
+	</tr>
+	<tr>
+		<th class="first">位置：</th>
+		<td>
+        <select name="position_id" class="requireinput required">
+        <!--{foreach from=$link_position_conf item=item key=key}-->
+        <option value="{$key}" {if $smarty.const.ACTION_NAME eq 'edit' && $key eq $link.position_id}selected="selected"{/if}>{$item}</option>
+        <!--{/foreach}-->
+        </select>
+        </td>
+	</tr>
+    <tr>
+		<th class="first">类型：</th>
+		<td><label><input onclick="switch_type(this.value)" name="link_type" type="radio" value="1" {if $smarty.const.ACTION_NAME eq 'add' || ($smarty.const.ACTION_NAME eq 'edit' && 1 eq $link.link_type)}checked{/if} />文字</label><label><input onclick="switch_type(this.value)" name="link_type" type="radio" value="2" {if $smarty.const.ACTION_NAME eq 'edit' && 2 eq $link.link_type}checked{/if} />图片</label></td>
+	</tr>
+    <tr>
+		<th class="first">链接：</th>
+		<td><input name="link_url" type="text"  size="40" class="textinput url" value="{$link.link_url}" /></td>
+	</tr>
+    <tr>
+		<th class="first">显示顺序：</th>
+		<td><input name="sort_order" type="text"  size="10" class="textinput requireinput required number" value="{$link.sort_order}" /></td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" style="display:{if $smarty.const.ACTION_NAME eq 'add'}block{elseif $smarty.const.ACTION_NAME eq 'edit' && 1 eq $link.link_type}block{else}none{/if};" class="table-form link_group group_1">
+	<tbody>
+    <tr>
+		<th width="200" class="first">链接文字：</th>
+		<td><input name="link_text" type="text"  size="40" class="textinput" value="{$link.link_code}" /></td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" style="display:{if $smarty.const.ACTION_NAME eq 'add'}none{elseif $smarty.const.ACTION_NAME eq 'edit' && 2 eq $link.link_type}block{else}none{/if};" class="table-form link_group group_2">
+	<tbody>
+    <tr>
+		<th width="200" class="first">链接LOGO：</th>
+		<td><input type='file' name='link_logo' size='40' /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">或LOGO网址：</th>
+		<td><input name="logo_url" type="text"  size="40" class="textinput url" value="{if $smarty.const.ACTION_NAME eq 'edit' && 2 eq $link.link_type}{$link.link_code}{/if}" /></td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr class="act">
+		<th width="200" class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="link_id" type="hidden" value="{$link.link_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+<!--{literal}-->
+$("#form_post").validate();
+
+function switch_type(link_type)
+{
+	$('.link_group').css('display','none');
+	$('.group_'+link_type).css('display','block');
+}
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

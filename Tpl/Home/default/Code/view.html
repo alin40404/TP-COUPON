@@ -1,0 +1,297 @@
+{template "../Public/header"}
+<link rel="Stylesheet" type="text/css" href="__PUBLIC__/Js/jmodal/jquery.jmodal.css" />
+<script type="text/javascript" src="__PUBLIC__/Js/jmodal/jquery.jmodal.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/coupon.js"></script>
+<script type="text/javascript">
+var pull_url = '__APP__?m=Code&a=pull';
+var mycodes_url = "{echo reUrl('User/codes');}";
+var how2use_url = "{echo reUrl('Mall/how2use?id='.$detail['m_id']);}";
+var shopping_url = "{echo reUrl('Mall/out?id='.$detail['m_id']);}";
+</script>
+{template "../Public/nav"}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_l" class="clear">
+                    
+                    <h2>
+                        {$mall.name}优惠券详情</h2>
+                    
+                    <div class="main_l_l_d clear">
+                        
+                        <div class="normal_l">
+                            <a href="{echo reUrl('Mall/view?id='.$detail['m_id']);}">
+                                <img src="{echo FixedUploadedFileUrl($mall[logo]);}" alt="{$detail.title}"></a>
+                        </div>
+                        
+                        <div class="normal_m nw500">
+                            <h1>{$detail.title}</h1>
+                            <ul class="normal_m_u detail clear">
+                            	<li><em>购买价格：</em><!--{if $detail['price_type']==1}-->免费<!--{elseif $detail['price_type']==2}--><i>{$detail.price}</i>元<!--{elseif $detail['price_type']==3}--><i>{$detail.price}</i>积分<!--{/if}--></li>
+                                <li><em>优&nbsp;&nbsp;惠&nbsp;&nbsp;额：</em><!--{if $detail['c_type']==1}-->满<i>{$detail.money_max}</i>减<i>{$detail.money_reduce}</i><!--{else}--><i>{$detail.money_amount}</i>元代金券<!--{/if}--></li>
+                                
+                                <li><em>有&nbsp;&nbsp;效&nbsp;&nbsp;期：</em><!--{if $detail['expiry_type']==1}--><!--{if $detail['expiry']==0}-->已结束<!--{else}-->还剩 <i><!--{if $detail['expiry']>$_CFG['max_left_days']}-->{$_CFG['max_left_days']}<!--{else}-->{$detail.expiry}<!--{/if}--></i> 天<!--{/if}--><!--{else}-->长期有效<!--{/if}--></li>
+                                
+                                <li><em>领取数量：</em> 已发放 <i>{$detail.fetched_amount}</i> 张</li>
+                                
+                                <li><em>更多优惠券：</em>其它<a target="_blank" href="{echo reUrl('Mall/view?id='.$detail['m_id']);}">{$mall.name}优惠券</a></li>
+                                
+                                <li><em>使用说明：</em><br>{$detail['data']['directions']}</li>
+                                
+                            </ul>
+                            <div class="gosale">
+                                
+                                <a href="javascript:;" class="pullbtn" title="立即领取该优惠券" id="pull" cid="{$detail.c_id}" ptype="{$detail.price_type}" price="{$detail.price}"><span>立即领取</span></a>
+                                
+                            </div>
+                            <div class="clear">
+                            </div>
+                            <ul class="normal_m_u clear">
+                                <li class="">已领取的券可到会员中心的&nbsp;<a href="{echo reUrl('User/codes');}" target="_blank">我领取的优惠券</a>&nbsp;中查看
+                                    
+                                </li>
+                                <li class="red" style="margin-top: 10px;">温馨提示： </li>
+                                
+                                <li style="padding: 10px 10px 5px 10px; width: auto;" class="gray">
+                                <!--{if $detail['data']['prompt']}-->
+                                {$detail['data']['prompt']}
+                                <!--{else}-->
+                                1.为确保优惠券能正常使用，请务必在新弹出的 网站中使用优惠券。<br />
+                                2.领取的券请在{$_CFG['code_in_secret']}分钟内使用，{$_CFG['code_in_secret']}分钟后会在当前页面显示出来，请大家珍惜每张优惠券!<br />
+                                3.如果当前账号已经不能领了，请不要再注册新号来领取，以免您的IP被封杀
+                                <!--{/if}-->
+                                </li>
+                                
+                            </ul>
+                            <div class="clear">
+                            </div>
+                            <h2 style="color: #017BC6;">
+                                最近领取的会员</h2>
+                            <ul class="pulledlist">
+                                <li><u>领取人</u> <b>领取时间</b> <em>券码/密码</em></li>
+                                <!--{eval $ii=1;}-->
+                                <!--{loop $record_top100 $item}-->
+                                <!--{if $ii>5}--><!--{eval break;}--><!--{/if}-->
+                                <!--{eval $ii++;}-->
+                                <li>
+                                    
+                                    <u>{$item.nick}</u>
+                                    
+                                    <b><!--{echo date('m-d H:i', $item['pull_time']);}--></b>
+                                    
+                                    <em><!--{if $user['user_id']==$item['user_id'] || $item['pull_time']<=$nowtime}-->{$item['code']}<!--{else}-->仅领取者本人知道<!--{/if}--></em>
+                                </li>
+                                <!--{/loop}-->
+                                <!--{if $record_top_amount>5}-->
+                                <li><a href="javascript:;" class="expand">还有{echo ($record_top_amount-5);}条没有显示出来，点击显示全部</a></li>
+                                <!--{eval for($k=5;$k<count($record_top100);$k++){}-->           
+                                <li class="h">
+                                    
+                                    <u>{$record_top100[$k]['nick']}</u>
+                                    
+                                    <b><!--{echo date('m-d H:i', $record_top100[$k]['pull_time']);}--></b>
+                                    
+                                    <em><!--{if $user['user_id']==$record_top100[$k]['user_id'] || $record_top100[$k]['pull_time']<=$nowtime}-->{$record_top100[$k]['code']}<!--{else}-->仅领取者本人知道<!--{/if}--></em>
+                                </li>
+                                <!--{eval }}-->
+                                <!--{/if}-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clear">
+                        <div class="tabs_t">
+                            
+                            <ul>
+                                <li class="current"><a href="javascript:;">使用说明</a></li>
+                                <li class=""><a href="{echo reUrl('Mall/view?id='.$detail['m_id']);}">商家介绍</a></li>
+                            </ul>
+                            
+                        </div>
+                        <div class="tabs_b" id="shop_relate">
+                            <div id="c_intro" class="tabs_c ">
+                                
+                                <div id="couponShiyongLink">
+                                    <a target="_blank" title="{$mall.name}优惠码使用方法" href="{echo reUrl('Mall/how2use?id='.$detail[m_id]);}">
+                                        {$mall.name}优惠券使用方法</a>
+                                </div>
+                                <br>
+                                <div id="how2use">{$mall.how2use}</div>
+                            </div>
+                            <div id="c_coupon" class="tabs_c  hidden">{$mall.description}</div>
+                        </div>
+                    </div>
+                    <div class="clear">
+                    </div>
+                    
+                </div>
+                <div class="main_l_t">
+                    <h2>
+                        温馨提示：优惠券使用说明</h2>
+                    <div id="bottom">
+                        <p>
+                            如何使用优惠券？</p>
+                        <p>
+                            1.点击商家的优惠券链接，复制优惠代码。<br>
+                            2.在商家（比如当当、凡客等）选择商品.<br>
+                            3.选定商品,去结算中心.<br>
+                            4.在提示填入优惠券号码的框内，粘贴优惠券号码。<br>
+                            淘宝商家在留言栏，粘贴优惠券号码，并和商家交谈提示有优惠券号码。<br>
+                            5.查看是否得到该优惠.<br>
+                            6.提交订单完成交易。<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="main_r" style="width: 320px;">
+                <ul class="sidebar">
+                    
+                    <li class="gray">
+                        <h3>
+                            更多{$mall.name}优惠券</h3>
+                        <ul class="hot_coupon">
+                        	<!--{eval $top10=coupon_codes_latest($mall['id']);}--> 
+                            <!--{loop $top10 $item}-->  
+                            <li><a class="img_wrap" href="{echo reUrl('Code/view?id='.$item[c_id]);}">
+                                <img src="{echo FixedUploadedFileUrl($item[logo]);}"></a>
+                                <div class="img_detail">
+                                    <p class="name">
+                                        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠券{else}{$item.money_amount}元代金券{/if}{/if}</a></p>
+                                    <p class="btn_wrap">
+                                        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" class="btn" href="{echo reUrl('Code/view?id='.$item[c_id]);}"><span>立即领取</span></a></p>
+                                    <p class="score_now">
+                                        已领：{$item.fetched_amount}张</p>
+                                    <p class="score_old">
+                                        {if $item['c_type']==1}满<del>{$item.money_max}</del>减<del>{$item.money_reduce}</del>{else}<del>{$item.money_amount}</del>元代金券{/if}
+                                    </p>
+                                </div>
+                            </li>
+                            <!--{/loop}-->
+                        </ul>
+                    </li>
+                    
+                    <li class="blue">
+                        <h3>
+                            商家信息</h3>
+                        <div class="sidebar_s clear">
+                            <div class="sidebar_s_l">
+                                <a href="{echo reUrl('Mall/view?id='.$detail['m_id']);}">
+                                    <img src="{echo FixedUploadedFileUrl($mall[logo]);}" alt="{$mall.name}"></a>
+                                <div class="gobuy">
+                                    <a rel="nofollow" href="{echo reUrl('Mall/out?id='.$detail['m_id']);}" target="_blank" class="btn counter"><span>
+                                        去商家购物</span></a></div>
+                            </div>
+                            <div class="sidebar_s_i">
+                                商家名称：<a rel="nofollow" href="{echo reUrl('Mall/out?id='.$detail['m_id']);}">{$mall.name}</a>
+                                <!--<br>口碑指数：<span class="star_b_g relative">5.0000000093<span style="width: 93px;" class="star_b_l absolute">&nbsp;</span></span>-->
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yellow">
+                        <h3>
+                            领取最多的优惠券列表</h3>
+                        <ol class="rank_coupon">
+                            <!--{eval $hot=coupon_codes_hot('week', 10);}-->
+                            <!--{loop $hot $item}-->  
+                            <li><a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠券{else}{$item.money_amount}元代金券{/if}{/if}</a></li>
+                            <!--{/loop}-->
+                        </ol>
+                    </li>
+                    <li class="yellow">
+                        <h3>
+                            最新发布优惠券</h3>
+                        <ol class="rank_coupon">
+                            
+                            <!--{eval $latest=coupon_codes_latest();}--> 
+                            <!--{loop $latest $item}-->
+                            <li><a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠券{else}{$item.money_amount}元代金券{/if}{/if}</a></li>
+                            <!--{/loop}-->
+                            
+                        </ol>
+                    </li>
+                    <li class="gray">
+                        <h3>
+                            最新被领取的优惠券</h3>
+                        <ul class="hot_coupon">
+                        	<!--{eval $fetched=coupon_codes_fetched(10);}-->
+                        	<!--{loop $fetched $item}-->
+                            <li><a class="img_wrap" href="{echo reUrl('Code/view?id='.$item[c_id]);}">
+                                <img src="{echo FixedUploadedFileUrl($item[logo]);}"></a>
+                                <div class="img_detail">
+                                    <p class="name">
+                                        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠券{else}{$item.money_amount}元代金券{/if}{/if}</a></p>
+                                    <p>
+                                        已领数量：{$item.fetched_amount}张</p>
+                                    <p>
+                                        领取时间：{echo date('H:i:s',$item['fetch_time'])}</p>
+                                    <p>
+                                        领取用户：
+                                        {$item.nick}
+                                    </p>
+                                </div>
+                            </li>
+                            <!--{/loop}-->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+coupon.init();
+$(".pulledlist li").bind("copy",function(){
+                var opened = $(this).parent().attr("opened");
+                if(opened===undefined || parseInt(opened)<3){
+					$.fn.jmodal({
+                    	data: {},
+                    	title: '温馨提示',
+                    	content: '复制成功！请在新窗口中使用优惠券',
+                    	buttonText: { ok: '确定', cancel: '' },
+                    	fixed: false,
+						marginTop: 200,
+						okEvent: function(data, args) {
+                        	args.hide();
+                    	}
+               	   	});
+                    window.open(shopping_url);
+                    opened = opened===undefined ? 1 : parseInt(opened)+1;
+                    $(".pulledlist").attr("opened",opened);
+                }else{
+                    $.fn.jmodal({
+                    	data: {},
+                    	title: '温馨提示',
+                    	content: '复制优惠券代码成功！',
+                    	buttonText: { ok: '确定', cancel: '' },
+                    	fixed: false,
+						marginTop: 200,
+						okEvent: function(data, args) {
+                        	args.hide();
+                    	}
+               	   	});
+                }
+            });
+$(".pulledlist li em").bind("mouseup",function(){
+                $(".newtips").remove();
+                coupon.tips("<font color=green>进行复制操作后将会弹出商家的网站<br />请务必在弹出的商家网站中使用优惠券！</font>", 350, $(this).offset().top - 125, 'up', 50 ,$('#main'));
+            });
+$('a.expand').click(function(){
+							 $('ul.pulledlist>li.h').removeClass('h');
+							 $(this).parent().remove();
+							 });
+$('div.tabs_t>ul>li').each(function(i){
+									$(this).hover(function(){
+													    $('div.tabs_t>ul>li').removeClass('current');
+									 					$(this).addClass('current');
+									 					if(i==0){
+										 					$('#c_intro').removeClass('hidden');
+										 					$('#c_coupon').addClass('hidden');
+									 					}else if(i==1){
+										 					$('#c_intro').addClass('hidden');
+										 					$('#c_coupon').removeClass('hidden');
+									 					}
+													   });
+									});
+$(document).ready(function() {
+	ReImgSize('how2use',620,580);
+						   });
+</script>
+{template "../Public/footer"}

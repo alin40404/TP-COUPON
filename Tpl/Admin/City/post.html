@@ -1,0 +1,82 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody><tr>
+		<th width="200" class="first">编码：</th>
+		<td><input name="code" id="code" type="text"  size="40" class="textinput requireinput required" value="{$city.code}" onblur="check_code_valid();" /><label class="error2" id="tip_code"></label></td>
+	</tr>
+	<tr>
+		<th class="first">名称：</th>
+		<td><input name="name" type="text"  size="40" class="textinput requireinput required" value="{$city.name}" /></td>
+	</tr>
+    <tr>
+		<th class="first">站长：</th>
+		<td>
+        <select name="admin_uid">
+        <option value="0">选择站长</option>
+        <!--{foreach from=$webmasters item=item}-->
+        <option value="{$item.user_id}" {if $item.user_id eq $city.admin_uid}selected="selected"{/if}>{$item.user_name},,{$item.name}</option>
+        <!--{/foreach}-->
+        </select>
+        </td>
+	</tr>
+    <tr>
+		<th class="first">排序：</th>
+		<td><input name="sort_order" type="text"  size="10" class="textinput requireinput required number" value="{$city.sort_order}" /></td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="id" id="id" type="hidden" value="{$city.id|default:'0'}" />
+<input name="dosubmit" id="dosubmit" type="hidden" value="1" />
+</form>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var a = '{$smarty.const.ACTION_NAME}';
+<!--{literal}-->
+$("#form_post").validate({
+						 submitHandler:function(form){ 
+						 							if(parseInt($('#dosubmit').val()) == 1){
+														form.submit();
+													}
+						 						}
+						 });
+
+function check_code_valid()
+{
+	var code = $('#code').val();
+	var id = $('#id').val();
+	if(code == ''){
+		$('#tip_code').text('');
+		return false;
+	}
+	var url = "?g="+g+"&m="+m+"&a=check_code_valid&ajax=1&id="+id+"&code="+encodeURIComponent(code);
+		$.getJSON(url, function(data){
+									if(data.status == 0){
+										alert(data.info);
+									}else{
+										if(data.data.is_exist == 1){
+											$('#dosubmit').val(0);
+											$('#tip_code').text('该编码已存在，请换一个试试');
+										}else if(data.data.is_exist == 0){
+											$('#dosubmit').val(1);
+											$('#tip_code').text('');
+										}
+									}
+									});
+}
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

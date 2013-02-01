@@ -1,0 +1,70 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/dataList.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function del(id)
+{
+	$('#dialog>p').html('确定要删除吗？');
+	$('#dialog').dialog('open');
+	$('#dialog').dialog({
+					autoOpen: false,
+					width: 300,
+					buttons: {
+						"确定": function() { 
+							var url = "?g="+g+"&m="+m+"&a=unbest&id="+id+"&ajax=1&_hash_="+_hash_;
+							$.getJSON(url, function(data){
+													if(data.status == 0){
+														$('#dialog>p').html('删除失败');
+														$('#dialog').dialog('open');
+													}else{
+														$('#tt-item-'+id).remove();
+														_hash_ = data.info;
+														$('#dialog').dialog("close"); 
+													}
+													});
+						},
+						"取消": function() { 
+							$(this).dialog("close"); 
+						}
+					}
+				});
+}
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="search-box">
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th>名称</th>
+<th width="150">有效期</th>
+<th width="60">排序</th>
+<th width="130">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$codes item=item}-->
+<tr id="tt-item-{$item.c_id}">
+<td align="left"><!--{if $item.title}-->{$item.title}<!--{else}--><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=view&c_id={$item.c_id}">{$item.m_name}<!--{/if}--><!--{if $item.c_type==1}-->满{$item.money_max}减{$item.money_reduce}元优惠券<!--{else}-->{$item.money_amount}代金券<!--{/if}--></a></td>
+<td align="left">{$item.expiry}</td>
+<td align="center"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="coupon_code_best" pk="c_id" href="javascript:;" onclick="textEdit(this,'{$item.c_id}','sort_order')">{$item.sort_order}</span></td>
+<td align="center"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=edit_best&id={$item.c_id}">编辑</a>
+&nbsp;&nbsp;<a onclick="del({$item.c_id})" href="javascript:;">删除</a>
+</td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+{include file="../Public/footer.html"}

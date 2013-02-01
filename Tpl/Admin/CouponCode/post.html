@@ -1,0 +1,133 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/xheditor-1.1.13/xheditor-1.1.13-zh-cn.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/xheditor-1.1.13/xheditor_plugins/ubb.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Js/WdatePicker/skin/WdatePicker.css" />
+<script type="text/javascript" src="__PUBLIC__/Js/WdatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/thickbox/thickbox.js"></script>
+<link href="__PUBLIC__/Js/thickbox/thickbox.css" rel="stylesheet" type="text/css" />
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr>
+		<th width="200" class="first">商家：</th>
+		<td><input name="m_name" id="m_name" type="text"  size="40" class="textinput requireinput required" value="{$code.m_name}" readonly="readonly" /><input name="m_id" id="m_id" type="hidden" value="{$code.m_id|default:0}" />&nbsp;<a href="?g={$smarty.const.GROUP_NAME}&m=CouponCodeMall&a=select&is_iframe=1&keepThis=true&TB_iframe=true&height=440&width=750" title="选择商家" class="thickbox">选择商家</a></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">名称：</th>
+		<td><input name="title" type="text"  size="40" class="textinput" value="{$code.title}" />(设定名称后优惠券标题将优先显示为该名称)</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">类型：</th>
+		<td><select name="c_type" onchange="sel_c_type(this.value)"><!--{foreach from=$code_type_conf item=item key=key}--><option value="{$key}" {if $code.c_type==$key}selected{/if}>{$item}</option><!--{/foreach}--></select><span id="c_type_elm_1">满<input name="money_max" id="money_max" type="text"  size="10" class="textinput requireinput number" value="{$code.money_max}" />元&nbsp;减<input name="money_reduce" id="money_reduce" type="text"  size="10" class="textinput requireinput number" value="{$code.money_reduce}" />元</span><span id="c_type_elm_2">金额：<input name="money_amount" id="money_amount" type="text"  size="10" class="textinput requireinput number" value="{$code.money_amount}" />元</span></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">有效期：</th>
+		<td><select name="expiry_type" onchange="sel_expiry_type(this.value)"><!--{foreach from=$code_expiry_conf item=item key=key}--><option value="{$key}" {if $code.expiry_type==$key}selected{/if}>{$item}</option><!--{/foreach}--></select><span id="expiry_type_elm_1">有效期至<input type="Text" name="expiry" class="Wdate textinput requireinput"  id="expiry" onFocus="WdatePicker({literal}{{/literal}skin:'ext',dateFmt:'yyyy-MM-dd',isShowToday:false,lang:'zh_cn',readOnly:true{literal}}{/literal})" style="cursor: hand; width:160px;" value="{$code.expiry}"></span></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">领取限制：</th>
+		<td><select name="fetch_limit"><!--{foreach from=$fetch_limit_conf item=item key=key}--><option value="{$key}" {if $code.data.fetch_limit==$key}selected{/if}>{$item}</option><!--{/foreach}--></select></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">付费：</th>
+		<td><select name="price_type" onchange="sel_price_type(this.value)"><!--{foreach from=$code_price_conf item=item key=key}--><option value="{$key}" {if $code.price_type==$key}selected{/if}>{$item}</option><!--{/foreach}--></select><span id="price_type_elm_1"></span><span id="price_type_elm_2">价格：<input name="price_2" id="price_2" type="text"  size="10" class="textinput requireinput number" value="{$code.price}" /></span><span id="price_type_elm_3">数量<input name="price_3" id="price_3" type="text"  size="10" class="textinput requireinput number" value="{$code.price}" /></span></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">使用说明：</th>
+		<td><textarea name="directions" id="directions" cols="" rows="" class="textinput" style="height:150px; width:550px;">{$code.data.directions}</textarea></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">温馨提示：</th>
+		<td><textarea name="prompt" id="prompt" cols="" rows="" class="textinput" style="height:150px; width:550px;">{$code.data.prompt}</textarea></td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="hash" type="hidden" value="{$_hash_}" />
+<input name="c_id" type="hidden" value="{$code.c_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var a = '{$smarty.const.ACTION_NAME}';
+var c_type = {$code.c_type|default:1};
+var expiry_type = {$code.expiry_type|default:1};
+var price_type = {$code.price_type|default:1};
+var tb_pathToImage = "__PUBLIC__/Js/thickbox/loadingAnimation.gif";
+var upscript_url = '__APP__?g=Public&m=Public&a=upload4xheditor&immediate=1';
+var editor = null;
+<!--{literal}-->
+function sel_c_type(c_type)
+{
+	$('#c_type_elm_1,#c_type_elm_2').hide();
+	$('#c_type_elm_'+c_type).show();
+	if(c_type == 1){
+		$('#money_max,#money_reduce').addClass('required');
+		$('#money_amount').removeClass('required');
+	}else{
+		$('#money_max,#money_reduce').removeClass('required');
+		$('#money_amount').addClass('required');
+	}
+}
+function sel_expiry_type(expiry_type)
+{
+	if(expiry_type == 1){
+		$('#expiry_type_elm_1').show();
+		$('#expiry').addClass('required');
+	}else{
+		$('#expiry_type_elm_1').hide();
+		$('#expiry').removeClass('required');
+	}
+}
+function sel_price_type(price_type)
+{
+	$('#price_type_elm_1,#price_type_elm_2,#price_type_elm_3').hide();
+	$('#price_type_elm_'+price_type).show();
+	if(price_type == 2){
+		$('#price_2').addClass('required');
+		$('#price_3').removeClass('required');
+	}else if(price_type == 3){
+		$('#price_2').removeClass('required');
+		$('#price_3').addClass('required');
+	}else{
+		$('#price_2,#price_3').removeClass('required');
+	}
+}
+function pick_mall_handler(mall)
+{
+	if(mall !== null){
+		$('#m_id').val(mall.m_id);
+		$('#m_name').val(mall.m_name);
+	}
+	tb_remove();
+}
+$(document).ready(function() {
+			$("#form_post").validate({
+						 submitHandler:function(form){
+							 						form.directions.value = $('#directions').val();
+													form.prompt.value = $('#prompt').val();
+						 							form.submit();
+						 						}
+						 });
+			sel_c_type(c_type);
+			sel_expiry_type(expiry_type);
+			sel_price_type(price_type);
+			tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
+			imgLoader = new Image();// preload image
+			imgLoader.src = tb_pathToImage;
+			var options = {elm:'#directions,#prompt',tools:'simple',upscript_url:upscript_url};
+			editor = editorInit(options);
+});
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

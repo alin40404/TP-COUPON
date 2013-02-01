@@ -1,0 +1,178 @@
+{template '../Public/header'}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+{template '../Public/nav'}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_l" class="clear">
+                    <h2 class="login_t">第一次来{$_CFG['site_name']},请先注册帐号</h2>
+                    <ul class="clear">
+                    <form action="{echo reUrl('User/reg');}" method="post" id="reg_form" name="reg_form" onsubmit="return false;">
+                    <table width="100%" border="0" class="login_form">
+  <tr>
+    <td width="100" align="right">帐号：</td>
+    <td><input name="nick" value="{$nick}" id="nick" type="text" style="width:200px;" /><label class="error2" id="tip_nick"></label></td>
+  </tr>
+  <tr>
+    <td width="100" align="right">E-mail：</td>
+    <td><input name="email" id="email" type="text" style="width:200px;" /></td>
+  </tr>
+  <tr>
+    <td align="right">密码：</td>
+    <td><input name="pw" id="pw" type="password" style="width:200px;" /></td>
+  </tr>
+  <tr>
+    <td align="right">确认密码：</td>
+    <td><input name="confirm_pw" id="confirm_pw" type="password" style="width:200px;" /></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td><input name="agree" id="agree" type="checkbox" value="1" />&nbsp;<a href="Html/policy.html" target="_blank" id="label_agree">同意注册协议</a></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td><input type="submit" value="注册" name="commit" id="signup-submit" class="formbutton"></td>
+  </tr>
+</table>
+<input name="hash" type="hidden" value="{$hash}" />
+<input name="ac" type="hidden" value="dobind" />
+<input name="type" type="hidden" value="{$type}" />
+</form>
+				</ul>
+                </div>
+            </div>
+            <div class="main_r" style="width: 320px;">
+    <ul class="sidebar">
+            
+
+        <li class="yellow">
+            <h3>已有{$_CFG['site_name']}帐号？直接登陆</h3>
+            <div class="sidebar_s clear">
+            	<form action="{echo reUrl('User/bind?type='.$type.'&ac=dobind');}" method="post" name="login_form" id="login_form" onsubmit="return false;">
+                    <table width="100%" border="0" class="login_form">
+  <tr>
+    <td width="100" align="right">帐号：</td>
+    <td colspan="2"><input name="nick" id="login_nick" type="text" style="width:200px;" /></td>
+  </tr>
+  <tr>
+    <td align="right">密码：</td>
+    <td colspan="2"><input name="pw" id="login_pw" type="password" style="width:200px;" />&nbsp;<a href="{echo reUrl('User/getpwd');}">忘记密码？</a></td>
+  </tr>
+  <tr>
+    <td align="right">&nbsp;</td>
+    <td width="150"><input type="submit" value="登陆" name="commit" id="signup-submit" class="formbutton"></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="ac" type="hidden" value="dobind" />
+<input name="type" type="hidden" value="{$type}" />
+</form>
+            </div>
+        </li>
+   
+             </ul>
+</div>
+        </div>
+    </div>
+<script type="text/javascript">
+var g = '{GROUP_NAME}';
+var m = '{MODULE_NAME}';
+var a = '{ACTION_NAME}';
+var type = '{$type}';
+var r_url = 'index.php?m='+m+'&a='+a+'&type='+type+'&ac=dobind';
+var reg_url = "{echo reUrl('User/reg');}";
+var login_url = "{echo reUrl('User/login');}";
+var dosubmit = false;
+function reg()
+{
+	$.ajax({
+		url: reg_url,
+		type:"POST",
+		cache: false,
+		data:$("#reg_form").serialize(),
+		dataType:"json",
+		error: function(){
+			
+		},
+		success: function(result){
+			if(result.status==1){
+				window.location.href = r_url;
+			}else{
+				alert(result.info);
+			}
+		}
+	});
+}
+function login()
+{
+	$.ajax({
+		url: login_url,
+		type:"POST",
+		cache: false,
+		data:$("#login_form").serialize(),
+		dataType:"json",
+		error: function(){
+			
+		},
+		success: function(result){
+			if(result.status==1){
+				window.location.href = r_url;
+			}else{
+				alert(result.info);
+			}
+		}
+	});
+}
+$(document).ready(function() {
+			$("#login_form").validate({
+						 submitHandler:function(form){
+							 						login();
+													return false;
+						 						}
+						 });
+			$('#login_nick').rules('add', {
+						 		required: true,
+								rangelength: [2,20]
+						});
+			$('#login_pw').rules('add', {
+						 		required: true,
+								rangelength: [6,15]
+						});
+			
+			$("#reg_form").validate({
+						 errorPlacement:function(error,element) {
+     												if (element.attr("name") == "agree"){
+       													error.insertAfter("#label_agree");
+													}else{
+														error.insertAfter(element);
+													}},
+						 submitHandler:function(form){
+							 						reg();
+													return false;
+						 						}
+						 });
+			$('#nick').rules('add', {
+						 		required: true,
+								rangelength: [2,20]
+						});
+			$('#email').rules('add', {
+						 		required: true,
+								email: true
+						});
+			$('#pw').rules('add', {
+						 		required: true,
+								rangelength: [6,15]
+						});
+			$('#confirm_pw').rules('add', {
+						 		required: true,
+								equalTo: '#pw',
+								rangelength: [6,15]
+						});
+			$('#agree').rules('add', {
+						 		required: true
+						});
+});
+</script>
+{template "../Public/footer"}

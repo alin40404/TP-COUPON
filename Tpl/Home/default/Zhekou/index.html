@@ -1,0 +1,69 @@
+{template "../Public/header"}
+{template "../Public/nav"}
+<div class="w990 clear">
+        <div style="padding-top: 0;" id="main" class="mt10">
+        <div style="width:990px;" class="main_l">
+        <div class="clear" id="main_l_b">
+            <h2>超值折扣</h2>
+            <dl style="width:950px;" class="filter clear"><dt style="height:20px;">商家类型：</dt>
+                <dd {if $cid==0}class="current"{/if}><a href="{echo reUrl('Zhekou/index?cid=0&t_type='.$t_type.'&p=1');}">全部</a></dd>
+                        <!--{loop $categorys $item}-->
+                        <dd {if $cid==$item['id']}class="current"{/if}><a href="{echo reUrl('Zhekou/index?cid='.$item['id'].'&t_type='.$t_type.'&p=1');}">{$item.name}</a></dd>
+                        <!--{/loop}-->
+            </dl>
+            <dl style="width:950px;" class="filter clear"><dt style="height:20px;">发布日期：</dt>
+                <dd {if $t_type==0}class="current"{/if}><a href="{echo reUrl('Zhekou/index?cid='.$cid.'&t_type=0&p=1');}">不限</a></dd>
+                <dd {if $t_type==1}class="current"{/if}><a href="{echo reUrl('Zhekou/index?cid='.$cid.'&t_type=1&p=1');}">今天</a></dd>
+                <dd {if $t_type==2}class="current"{/if}><a href="{echo reUrl('Zhekou/index?cid='.$cid.'&t_type=2&p=1');}">三天内</a></dd>
+                <dd {if $t_type==3}class="current"{/if}><a href="{echo reUrl('Zhekou/index?cid='.$cid.'&t_type=3&p=1');}">一周内</a></dd>
+                <dd {if $t_type==4}class="current"{/if}><a href="{echo reUrl('Zhekou/index?cid='.$cid.'&t_type=4&p=1');}">一月内</a></dd>
+            </dl>
+            
+            <div class="deal_box">
+			<!--{loop $zhekous $item}-->
+    <div class="deal_a">
+    <div class="deal_bt">
+      <h2>【<a target="_blank" href="{echo reUrl('Mall/view?id='.$item['m_id']);}"><font color="#660033">{$item.m_name}</font></a>】<a target="_blank" rel="nofollow" href="{echo reUrl('Zhekou/out?id='.$item[id]);}">{$item.title}</a></h2>
+    </div>
+    <div class="deal_img">
+      <a target="_blank" rel="nofollow" title="去抢购" href="{echo reUrl('Zhekou/out?id='.$item[id]);}" class="dimg_link">
+        <img class="normal_image" src="{echo FixedUploadedFileUrl($item[logo]);}">
+      </a>
+          </div>
+    <div class="deal_time">
+        <!--{if $item['use_coupon']}-->
+        <span class="tao_time_div"> 恭喜您，还可以使用<a target="_blank" href="{echo reUrl('Mall/view?id='.$item[m_id]);}"><font color="#660033">{$item.m_name}优惠券</font></a>更省钱</span>
+        <!--{else}-->
+        <span class="tao_time_div"> 已是活动商品，不可再使用<a target="_blank" href="{echo reUrl('Mall/view?id='.$item[m_id]);}"><font color="#660033">{$item.m_name}优惠券</font></a></span>
+        <!--{/if}-->
+          </div>
+    <div class="deal_jg">
+      <div class="jg_tuan">
+        <strong>¥{$item.price}</strong>
+        <a rel="nofollow" href="{echo reUrl('Zhekou/out?id='.$item[id]);}" target="_blank" class="deal_qkk"></a>
+      </div>
+      <div class="m_tao_sb">
+                  <span><img src="http://www.quanlaoda.com/static/theme/ev56_xiutuan/css/i/author_image3.png"></span>
+          <em>折扣攻略：</em>{$item.description}</div>
+    </div>
+  </div>
+   <!--{/loop}-->
+   <!-- end bd -->
+          </div>
+            
+            <ul class="pager">{$pagelink}</ul>
+        </div>
+    </div>
+        </div>
+    </div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.deal_a').live('mouseover',function(){
+        $(this).addClass('deal_hover');
+    });
+    $('.deal_a').live('mouseout',function(){
+        $(this).removeClass('deal_hover')
+    });
+});
+</script>
+{template "../Public/footer"}

@@ -1,0 +1,81 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function del(id)
+{
+	$('#dialog>p').html('确定要删除吗？');
+	$('#dialog').dialog('open');
+	$('#dialog').dialog({
+					autoOpen: false,
+					width: 300,
+					buttons: {
+						"确定": function() { 
+							var url = "?g="+g+"&m="+m+"&a=del&id="+id+"&ajax=1&_hash_="+_hash_;
+							$.getJSON(url, function(data){
+													if(data.status == 0){
+														$('#dialog>p').html('删除失败');
+														$('#dialog').dialog('open');
+													}else{
+														_hash_ = data.info;
+														$('#tt-item-'+id).remove();
+														$('#dialog').dialog("close"); 
+													}
+													});
+						},
+						"取消": function() { 
+							$(this).dialog("close"); 
+						}
+					}
+				});
+}
+
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="handle-btns">
+	<div class="img-button "><p><input type="button" class="addData" onclick="window.location.href='?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=add'" value="添加" name="addData" id="addData"></p></div>
+	</div>
+<div class="search-box">
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('link_id[]', this)"></th>
+<th width="50">ID</th>
+<th>网站名称</th>
+<th width="80">链接位置</th>
+<th width="80">链接类型</th>
+<th width="200">链接</th>
+<th width="260">链接内容</th>
+<th width="100">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$links item=item}-->
+<tr id="tt-item-{$item.link_id}">
+<td class="first"><input type="checkbox" value="{$item.link_id}" name="link_id[]"></td>
+<td>{$item.link_id}</td>
+<td align="left">{$item.site_name}</td>
+<td align="left">{$item.position}</td>
+<td align="left">{if $item.link_type eq 1}文字{else}图片{/if}</td>
+<td align="left">{$item.link_url}</td>
+<td align="left">{if $item.link_type eq 1}{$item.link_code}{else}<img src="{$item.link_code}" height="60" width="150"  />{/if}</td>
+<td align="center"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=edit&link_id={$item.link_id}">编辑</a>
+&nbsp;&nbsp;<a onclick="del({$item.link_id})" href="javascript:;">删除</a>
+</td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+{include file="../Public/footer.html"}

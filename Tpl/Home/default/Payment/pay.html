@@ -1,0 +1,85 @@
+{template '../Public/header'}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+{template '../Public/nav'}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_l" class="paynow clear">
+                    <h2>
+                      {$_CFG['site_name']}充值(先给您{$_CFG['site_name']}账号充值，然后再购买优惠券)</h2>
+                    <div class="main_l_l_d clear">
+                        <div class="normal_m">
+                            <form method="post" action="__APP__?m=Payment&a=dopayment" name="form_post" id="form_post">
+                            <b>充值金额：</b><input type="text" maxlength="4" id="amount" value="2.0" name="amount" style="height:20px;" class="requireinput required number">元
+                            <br> 
+                            <p>
+                                <input type="submit" value="使用支付宝来充值" name="btnChongzhi" style="height:30px;width:140px;">
+                            </p>
+                            <br>
+                            <br>
+                            <strong style="color: red;">注意：
+                            <br>1.每个支付宝只可为一个账号充值，请不要注册多个账号来购买。
+                            <br>2.如果购买的券因为过期或已经使用，都可以找{$_CFG['site_name']}客服申请退款。
+                            <br>3.请黄牛，代购，批发，倒卖优惠券等绕道而行，不要恶意领取{$_CFG['site_name']}从商家争取的券，导致大家领取不到券。</strong>
+                            </form>
+                        </div>
+                    </div>
+                    <h2>
+                        {$_CFG['site_name']}采用支付宝支付来保证您充值安全</h2>
+                    <div class="w630">
+                        <strong>{$_CFG['site_name']}采用支付宝作为网上第三方支付平台，最大程度的保证你的交易安全</strong>
+                        <div id="payment_i_1" class="payplat">                            
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0" class="paylogos">
+                                <tbody>
+                                    <tr class="align_Center">
+                                        <td width="25%" valign="top" style="padding-bottom: 5px">
+                                                <img src="http://www.quanmama.com/images/banklogo/pay_alipay.gif" title="支付宝" alt="支付宝">
+                                        </td>
+                                        <td width="25%" valign="top" style="">
+                                            <br>
+                                        </td>
+                                        <td width="25%" valign="top" style="">
+                                            <br>
+                                        </td>
+                                        <td width="25%" valign="top" style="">
+                                            <br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                       <h2>下面是{$_CFG['site_name']}充值的支付宝截图：</h2>
+                        <img width="680px" src="http://www.quanmama.com/images/quanmama-cz.jpg">
+                    </div>
+                </div>
+            </div>
+             <div class="main_r" style="width: 320px;">
+    <ul class="sidebar">
+            
+		{template '../User/profile'}
+   
+              <li class="yellow">
+                        <h3>
+                            最新充值的{$_CFG['site_name']}用户</h3>
+                        <ol class="rank_coupon">
+                            <!--{loop $payments $item}-->
+                            <li><b>{$item.nick}</b>在&nbsp;{$item.addtime}&nbsp;充值了{$item.amount}元</li>
+                            <!--{/loop}-->
+                        </ol>
+                    </li>
+             </ul>
+</div>
+        </div>
+    </div>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+            jQuery("#form_post").validate({
+						 submitHandler:function(form){
+						 							form.submit();
+						 						}
+			});
+});
+</script>
+{template "../Public/footer"}

@@ -1,0 +1,139 @@
+{template "../Public/header"}
+{template "../Public/nav"}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_l" class="clear">
+                    <h2>
+                        全部优惠券</h2>
+                    <dl class="filter clear">
+                        <dt style="height: 40px;">商家类型：</dt>
+                        <dd {if $cate_id==0}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id=0&t_type='.$t_type.'&cate_id2=0&p=1');}">全部</a></dd>
+                        <!--{loop $cates $item}-->
+                        <!--{if $item['level']==0}-->
+                        <dd {if $cate_id==$item['id']}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id='.$item['id'].'&t_type='.$t_type.'&cate_id2=0&p=1');}">{$item.name}</a></dd>
+                        <!--{/if}-->
+                        <!--{/loop}-->
+                    </dl>
+                    <!--{if $cate_children}-->
+                    <dl class="filter clear">
+                    	<dt style="height: 40px;">二级类型：</dt>
+                        <!--{loop $cate_children $item}-->
+                        <dd {if $cate_id2==$item['id']}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id='.$cate_id.'&t_type='.$t_type.'&cate_id2='.$item['id'].'&p=1');}">{$item.name}</a></dd>
+                        <!--{/loop}-->
+                    </dl>
+                    <!--{/if}-->
+                    <dl class="filter clear">
+                        <dt>发布日期：</dt>
+                        <dd {if $t_type==0}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id='.$cate_id.'&t_type=0&cate_id2='.$cate_id2.'&p=1');}">全部</a></dd><dd {if $t_type==1}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id='.$cate_id.'&t_type=1&cate_id2='.$cate_id2.'&p=1');}">今天</a></dd><dd {if $t_type==2}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id='.$cate_id.'&t_type=2&cate_id2='.$cate_id2.'&p=1');}">三天内</a></dd><dd {if $t_type==3}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id='.$cate_id.'&t_type=3&cate_id2='.$cate_id2.'&p=1');}">一周内</a></dd><dd {if $t_type==4}class="current"{/if}><a href="{echo reUrl('Code/latest?cate_id='.$cate_id.'&t_type=4&cate_id2='.$cate_id2.'&p=1');}">一月内</a></dd>
+                    </dl>
+                    <ul class="coupons-list" id="J_CouponsList" style="margin-left: 5px;">
+<!--{loop $codes $item}-->          
+<li>
+    <div class="coupon-wrapper">
+        <div class="scissors">
+        </div>
+        <h2><a href="{echo reUrl('Code/view?id='.$item[c_id]);}" title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" target="_blank"><!--{if $item['title']}-->{$item.title}<!--{else}-->{$item.m_name}<!--{if $item['c_type']==1}-->满{$item.money_max}减{$item.money_reduce}元优惠券<!--{else}-->{$item.money_amount}元代金券<!--{/if}--><!--{/if}--></a><!--<i class="hot">hot</i>--></h2>
+        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}" class="coupon" target="_blank">
+            <span class="left"><span class="description"><!--{if $item['c_type']==1}-->满<em>{$item.money_max}</em>减<em>{$item.money_reduce}</em><!--{else}--><em>{$item.money_amount}</em>元代金券<!--{/if}--></span><span class="store-logo">
+                <img src="{echo FixedUploadedFileUrl($item[logo]);}" style="display: block;"></span> </span>
+            <span class="right">
+                
+                <em class="free"><!--{if $item['price_type']==1}-->免费<!--{elseif $item['price_type']==2}-->{$item.price}元<!--{elseif $item['price_type']==3}-->{$item.price}积分<!--{/if}--></em>
+                
+                <span class="{if $item['amount']-$item['fetched_amount']>0}{if $item['expiry_type']==1 && $item['expiry']>0}{if $item['price_type']==1}get{else}sale{/if}{else}expire{/if}{else}pulled{/if}"><b></b>立即领取</span>
+                
+            </span></a>
+        
+        <div class="info">
+            
+            <span><!--{if $item['expiry_type']==1}--><!--{if $item['expiry']==0}-->已结束<!--{else}-->还剩 <i><!--{if $item['expiry']>$_CFG['max_left_days']}-->{$_CFG['max_left_days']}<!--{else}-->{$item.expiry}<!--{/if}--></i> 天<!--{/if}--><!--{else}-->长期有效<!--{/if}--> </span><span>已领数量：<i>{$item.fetched_amount}</i></span><span>收录券</span>
+            
+            <span><a class="store-from" href="{echo reUrl('Mall/view?id='.$item[m_id])}">{$item.m_name}优惠券</a></span>
+        </div>
+        
+    </div>
+</li>
+<!--{/loop}-->
+</ul>
+<ul class="pager">{$pagelink}</ul>
+                </div>
+            </div>
+            <div class="main_r" style="width: 320px;">
+                <ul class="sidebar">
+                    <li class="gray">
+                        <h3>
+                            热门优惠券</h3>
+                        <ul class="hot_coupon">
+                            <!--{eval $hot=coupon_codes_hot('week', 10);}-->
+                            <!--{loop $hot $item}-->
+                            <li><a class="img_wrap" href="{echo reUrl('Code/view?id='.$item[c_id]);}">
+                                <img src="{echo FixedUploadedFileUrl($item[logo]);}"></a>
+                                <div class="img_detail">
+                                    <p class="name">
+                                        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠券{else}{$item.money_amount}元代金券{/if}{/if}</a></p>
+                                    <p class="btn_wrap">
+                                        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" class="btn" href="{echo reUrl('Code/view?id='.$item[c_id]);}"><span>立即领取</span></a></p>
+                                    <p class="score_now">
+                                        已领：{$item.fetched_amount}张</p>
+                                    <p class="score_old">
+                                        {if $item['c_type']==1}满<del>{$item.money_max}</del>减<del>{$item.money_reduce}</del>{else}<del>{$item.money_amount}</del>元代金券{/if}
+                                    </p>
+                                </div>
+                            </li>
+                            <!--{/loop}-->
+                        </ul>
+                    </li>
+                    <li class="yellow">
+                        <h3>
+                            最新发布优惠券</h3>
+                        <ol class="rank_coupon">
+                            
+                            <!--{eval $latest=coupon_codes_latest();}--> 
+                            <!--{loop $latest $item}-->
+                            <li><a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠券{else}{$item.money_amount}元代金券{/if}{/if}</a></li>
+                            <!--{/loop}-->
+                            
+                        </ol>
+                    </li>
+                    <li class="gray">
+                        <h3>
+                            最新被领取的优惠券</h3>
+                        <ul class="hot_coupon">
+                            
+                            <!--{eval $fetched=coupon_codes_fetched(10);}-->
+                        	<!--{loop $fetched $item}-->
+                            <li><a class="img_wrap" href="{echo reUrl('Code/view?id='.$item[c_id]);}">
+                                <img src="{echo FixedUploadedFileUrl($item[logo]);}"></a>
+                                <div class="img_detail">
+                                    <p class="name">
+                                        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠券{else}{$item.money_amount}元代金券{/if}{/if}</a></p>
+                                    <p>
+                                        已领数量：{$item.fetched_amount}张</p>
+                                    <p>
+                                        领取时间：{echo date('H:i:s',$item['fetch_time'])}</p>
+                                    <p>
+                                        领取用户：
+                                        {$item.nick}
+                                    </p>
+                                </div>
+                            </li>
+                            <!--{/loop}-->
+                            
+                        </ul>
+                    </li>
+                    <li class="green">
+                        <h3>
+                            热门搜索</h3>
+                        <ul class="multicol">
+                        	<!--{eval $mall_hot20=hot_malls('week', 20);}-->
+                            <!--{loop $mall_hot20 $item}-->
+                            <li><a title="{$item.name}优惠券" href="{echo reUrl('Mall/view?id='.$item[id]);}">{$item.name}优惠券</a></li>
+                            <!--{/loop}-->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{template "../Public/footer"}

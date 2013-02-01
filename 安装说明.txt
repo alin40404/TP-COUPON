@@ -1,0 +1,25 @@
+﻿安装步骤：
+1、安装ucenter 服务端
+   本优惠券系统的会员基于ucenter，因此必须先安装ucenter才能安装本优惠券系统。
+   ucenter 下载和安装说明请访问 ： http://www.comsenz.com
+   如果已经安装过ucenter则可略过此步
+
+2、确保 install/templates_c 目录可写
+
+3、访问 install/ 执行安装程序，安装完后请将 install 目录删除，并将Conf目录设为只读
+
+4、后台访问地址 admin.php
+
+5、如果需要使用批量导入优惠券功能请登陆官方论坛下载 phpExcel 类库包
+
+6、如果需要使用全文检索功能请登陆官方论坛下载 scws 类库包
+
+官方QQ群：19385220
+
+项目网址：http://code.google.com/p/tp-coupon
+
+演示站：http://www.qfanqie.com
+
+官方网站：http://www.tp-coupon.com
+
+官方论坛：http://soft.qfanqie.com

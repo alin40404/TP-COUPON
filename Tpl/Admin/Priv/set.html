@@ -1,0 +1,73 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<style type="text/css">
+{literal}
+/************ Table ************/
+table.table-list {width: 100%;border-collapse: collapse;border-top: 1px solid #ccc;border-left: 1px solid #ccc;border-bottom: 1px solid #ccc; }
+table.table-list thead th {font-weight: bold; font-size: 12px; border-bottom: 1px solid #ccc; background: #e8e8e8; color:#353535;}
+table.table-list tbody { overflow:hidden;border-bottom: 1px solid #ddd; }
+table.table-list tbody td {border-bottom: 1px solid #ccc;}
+table.table-list tbody tr.alt-row {background: #f3f3f3; }
+table.table-list td,
+table.table-list th {padding:6px 4px;border-right: 1px solid #ccc; line-height: 1.3em; }        
+table.table-list td a{color:#000;}
+table.table-list td span{color:#f60;}
+table.table-list tfoot td .bulk-actions { padding: 15px 0 5px 0;border-top: 1px solid #ccc; } 
+table.table-list tfoot{border-bottom: 1px solid #ccc;}
+table.table-list tfoot td .bulk-actions select { padding: 4px;border: 1px solid #ccc;}   
+.td_out{ background-color:#FFF;}
+.td_over{ background-color:#E8E8E8}
+{/literal}
+</style>
+<form action="" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list">
+     <thead><tr>
+      <th>角色</th>
+      <!--{foreach from=$module_privs item=priv key=priv_type}-->
+      <th>{$priv.name}</th>
+      <!--{/foreach}-->
+	</tr></thead><tbody>
+    <!--{foreach from=$sysRoles item=item key=sysrole_key}-->
+    <tr>
+      <td>{$item.role_name}</td>
+      <!--{foreach from=$module_privs item=priv key=priv_type}-->
+      <td title="{$item.role_name},{$priv.name}" rel="{$priv_type}" role="{$item.role_id}"><input type="checkbox" value="{$priv_type},{$item.role_id}" name="priv_roleid[]" {foreach from=$privs item=mpriv key=mpriv_key}{if ($mpriv.roleid == $item.role_id) && ($mpriv.priv == $priv_type)}checked="checked"{/if}{/foreach}></td>
+      <!--{/foreach}-->
+    </tr>
+    <!--{/foreach}-->
+</tbody></table>
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr class="act">
+		<th width="200" class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="module" type="hidden" value="{$module}" />
+</form>
+<script type="text/javascript">
+<!--{literal}-->
+$(document).ready(function(){
+	$("table.table-list>tbody>tr>td").each(function(i){
+						        $(this).mouseover(
+                                			function () {
+												$("td[rel="+$(this).attr('rel')+"],td[role="+$(this).attr('role')+"]").each(function(){
+																								   $(this).removeClass('td_out');
+																								   $(this).addClass('td_over');
+																								   });
+                                             });
+								$(this).mouseout(
+                                			function () {
+												$("td[rel="+$(this).attr('rel')+"],td[role="+$(this).attr('role')+"]").each(function(){
+																								   $(this).removeClass('td_over');
+																								   $(this).addClass('td_out');
+																								   });
+                                             });
+						        });
+});
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

@@ -1,0 +1,44 @@
+{include file="../Public/header.html"}
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr>
+		<th width="200" class="first">商城分类：</th>
+		<td><!--{foreach from=$mall.cates item=item name=cates}-->{$item.name}{if !$smarty.foreach.cates.last} &gt; {/if}<!--{/foreach}--></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">名称：</th>
+		<td>{$mall.name}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">网址：</th>
+		<td><a href="{$mall.website}" target="_blank">{$mall.website}</a></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">购买跳转网址：</th>
+		<td><a href="{$mall.gourl}" target="_blank">{$mall.gourl}</a></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">客服电话：</th>
+		<td>{$mall.tel}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">LOGO：</th>
+		<td><img src="{$mall.logo|fixed_uploadfile_url}" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">形象图：</th>
+		<td><img src="{$mall.figure_image|fixed_uploadfile_url}" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">简介：</th>
+		<td>{$mall.description}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">优惠券使用方法：</th>
+		<td>{$mall.how2use}</td>
+	</tr>
+</tbody></table>
+{include file="../Public/footer.html"}

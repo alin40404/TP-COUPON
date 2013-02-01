@@ -1,0 +1,76 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/xheditor-1.1.13/xheditor-1.1.13-zh-cn.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/xheditor-1.1.13/xheditor_plugins/ubb.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var a = '{$smarty.const.ACTION_NAME}';
+var upscript_url = '__APP__?g=Public&m=Public&a=upload4xheditor&immediate=1';
+</script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post" enctype="multipart/form-data">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+    <tr>
+		<th width="200" class="first">文章分类：</th>
+		<td>
+        <select name="cate_id" class="requireinput required">
+        <!--{foreach from=$category item=item}-->
+        <option value="{$item.cate_id}" {if $item.cate_id == $article.cate_id}selected{/if}>{$item.cate_name}</option>
+        <!--{/foreach}-->
+        </select>
+        </td>
+	</tr>
+    <tr>
+		<th width="200" class="first">文章标题：</th>
+		<td><input name="title" type="text"  size="80" class="textinput requireinput required" value="{$article.title}" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">文章别名：</th>
+		<td><input name="alias" type="text"  size="20" class="textinput" value="{$article.alias}" /></td>
+	</tr>
+    <tr>
+		<th class="first">文章内容：</th>
+		<td>
+        <textarea name="content" id="content" cols="" rows="" class="requireinput required" style="height:460px; width:600px;">{$article.content}</textarea>
+        <br />
+        <span id="tip_desc"></span>
+        </td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="article_id" id="article_id" type="hidden" value="{$article.article_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+var cur_city = '{$cur_city}';
+<!--{literal}-->
+jQuery(document).ready(function() {
+            $("#form_post").validate({
+						 submitHandler:function(form){ 
+						 							if($('#content').val().length == 0){
+														$('#tip_desc').html('<label generated="true" class="error">此内容为必填项,请输入！</label>');
+														return false;
+													}else{
+														$('#tip_desc').html('');
+													}
+													form.content.value = $('#content').val();
+						 							form.submit();
+						 						}
+						 });
+			var options = {elm:'#content',tools:'full',upscript_url:upscript_url};
+			editorInit(options);
+});
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

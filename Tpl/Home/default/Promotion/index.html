@@ -1,0 +1,50 @@
+{template "../Public/header"}
+{template "../Public/nav"}
+<div class="w990 clear">
+<div style="padding-top: 0;" id="main" class="mt10">
+<div style="width:990px;" class="main_l" id="promotions">
+<div class="pros_l">
+<div class="title">商城促销活动</div>
+<ul>
+<li {if $cid==0}class="sel"{/if}><span class="cate_all"></span><b><a href="{echo reUrl('Promotion/index?cid=0&p=1');}">全部</a></b></li>
+<!--{loop $cates $item}-->
+<!--{if $item['level']==0}-->
+<li {if $cid==$item['id']}class="sel"{/if}><span class="cate_jiadian"></span><a href="{echo reUrl('Promotion/index?cid='.$item['id'].'&p=1');}">{$item.name}</a></li>
+<!--{/if}-->
+<!--{/loop}-->
+</ul>
+</div>
+
+<div class="pros_r">
+	    <ol>
+        <!--{loop $promotions $item}-->
+		<li>
+		<div>
+		<a target="_blank" class="picborder" href="{echo reUrl('Promotion/out?id='.$item[id]);}">
+		<img width="318" height="158" border="0" align="right" src="{echo FixedUploadedFileUrl($item[logo]);}" style="max-width:320px; max-height:160px;vertical-align:middle;"></a> 
+        <h3><a target="_blank" href="{echo reUrl('Promotion/out?id='.$item[id]);}">{$item.title}</a></h3>
+     
+        <p style="font-size:12px;color:#666;">{$item.description}</p>
+    
+        <span class="time-range">所属商家： <a style="font-size:12px;color: #BD0000;text-decoration: underline;" target="_blank" href="{echo reUrl('Mall/view?id='.$item[m_id]);}">{$item.m_name}</a></span>   
+				
+		<span style="margin-left:30px;">截止日期： {$item.expiry}</span> <span style="margin-left:30px;">详情请<a target="_blank" href="{echo reUrl('Promotion/out?id='.$item[id]);}">点击这里</a></span>
+        <div style="height:38px;" id="operate">
+		<span style="float:left"></span>
+		<span style="padding-left:10px;"></span>
+		<div style="clear:both"></div>
+		</div>
+    </div>
+<div style="clear:both"></div>
+</li>
+<!--{/loop}--> 
+  
+   </ol>
+	<ul class="pager">{$pagelink}</ul>
+    </div>
+
+<div class="clear"></div>
+</div>
+</div>
+</div>
+{template "../Public/footer"}

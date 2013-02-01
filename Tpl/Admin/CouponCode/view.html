@@ -1,0 +1,54 @@
+{include file="../Public/header.html"}
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="#" onclick="history.back();" name="" id="">返回</a></p></div>
+</div>
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr>
+		<th width="200" class="first">商家：</th>
+		<td>{$code.m_name}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">类型：</th>
+		<td><!--{if $code.c_type==1}-->满{$code.money_max}减{$code.money_reduce}元优惠券<!--{else}-->{$code.money_amount}代金券<!--{/if}--></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">有效期：</th>
+		<td><!--{if $code.expiry_type==1}-->{$code.expiry}<!--{else}-->无限制<!--{/if}--></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">领取限制：</th>
+		<td>{$code.fetch_limit}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">付费：</th>
+		<td><!--{if $code.price_type==1}-->免费<!--{elseif $code.price_type==2}-->{$code.price}元<!--{elseif $code.price_type==3}-->{$code.price}积分<!--{/if}--></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">优惠券数量：</th>
+		<td>{$code.amount}张</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">已领取数量：</th>
+		<td>{$code.fetched_amount}张</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">剩余数量：</th>
+		<td>{$code.amount-$code.fetched_amount}张</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">使用说明：</th>
+		<td>{$code.data.directions}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">温馨提示：</th>
+		<td>{$code.data.prompt}</td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="reset" value="返回" class="reset_btn" onclick="history.back();">
+		</td>
+	</tr>
+</tbody></table>
+{include file="../Public/footer.html"}

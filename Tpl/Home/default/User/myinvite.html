@@ -1,0 +1,34 @@
+{template '../Public/header'}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<style type="text/css">
+.users li u{ width:300px;}
+</style>
+{template '../Public/nav'}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_l" class="paynow clear">
+                    <h2>我的邀请</h2>
+                    <div class="main_l_l_d clear">
+                        <div class="normal_m">
+                            <ul class="consumelist users">
+                                <li><u>会员</u><em>注册时间</em></li>
+                                <!--{loop $users $item}-->
+                                <li><u>{$item.nick}</u><em>{$item.addtime}</em></li>
+                                <!--{/loop}-->
+                            </ul>
+                            <ul class="pager">{$pagelink}</ul>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+             <div class="main_r" style="width: 320px;">
+    <ul class="sidebar">
+    {template '../User/profile'}
+	</ul>
+	</div>
+</div>
+</div>
+{template "../Public/footer"}

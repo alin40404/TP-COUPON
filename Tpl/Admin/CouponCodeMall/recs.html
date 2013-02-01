@@ -1,0 +1,62 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/dataList.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function unrec()
+{
+	if(check_count('id[]') == 0){
+		$('#dialog>p').html('请选择商家');
+		$('#dialog').dialog('open');
+		return false;
+	}
+	var id = get_check_val('id[]');
+	var url = "?g="+g+"&m="+m+"&a=unrec&id="+id+"&ajax=1&_hash_="+_hash_;
+	$.getJSON(url, function(data){
+			if(data.status == 0){
+				$('#dialog>p').html(data.info);
+				$('#dialog').dialog('open');
+			}else{
+				$('#dialog>p').html('操作成功');
+				$('#dialog').dialog('open');
+				$('#tt-item-'+id).remove();
+				_hash_ = data.info;
+			}
+	});
+}
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="handle-btns">
+    <div class="img-button "><p><input type="button" class="addData" onclick="unrec()" value="取消推荐" name="addData" id="addData"></p></div>
+	</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('id[]', this)"></th>
+<th>名称</th>
+<th width="120">位置</th>
+<th width="60">排序</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$malls item=item}-->
+<tr id="tt-item-{$item.id}">
+<td class="first"><input type="checkbox" value="{$item.id}" name="id[]"></td>
+<td align="left"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=view&id={$item.id}">{$item.name}</a></td>
+<td align="center">{$item.position}</td>
+<td align="center"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="coupon_mall_rec" pk="" href="javascript:;" onclick="textEdit(this,'{$item.id}','sort_order')">{$item.sort_order}</span></td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+{include file="../Public/footer.html"}

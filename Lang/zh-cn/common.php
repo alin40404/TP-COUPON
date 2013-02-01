@@ -1,0 +1,38 @@
+<?php
+/**
+ * 公共模块语言文件
+ */
+return array(
+		'captcha'		=>	'验证码',
+		'captcha_invalid'	=>	'验证码错误',
+		'data_invalid'	=>	'数据不合法',
+		'permission_invalid'	=>	'没有权限操作',
+		'add'           =>  '添加',
+		'add_success'   =>  '添加成功',
+		'add_failed'    =>  '添加失败',
+		'cancel'        =>  '取消',
+		'edit'	        =>	'修改',
+		'edit_success'  =>  '修改成功',
+		'edit_failed'   =>  '修改失败',
+		'delete_success'=>  '删除成功',
+		'delete_failed' =>  '删除失败',
+		'delete'	    =>	'删除',
+		'details'		=>	'详细信息',
+		'submit'		=>	'提交',
+		'confirm'		=>	'确定',
+		'reset'			=>	'重置',
+		'option'        =>  '操作',
+		'options'       =>  '选项',
+		'order'         =>  '排序',
+		'sel_all'		=>	'全选',
+		'opt_success'	=>	'操作成功',
+		'opt_failed'	=>	'操作失败',
+		'back'			=>	'返回',
+		'tips'          =>  '提示说明',
+		'tip_star'      =>  '带*号的为必填项',
+		'yes'          	=>  '是',
+		'no'      		=>  '否',
+		'open'          =>  '开启',
+		'not_open'      =>  '不开启',
+		'search'		=>	'搜 索',
+	);

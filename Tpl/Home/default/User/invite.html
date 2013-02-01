@@ -1,0 +1,96 @@
+{template '../Public/header'}
+<link rel="Stylesheet" type="text/css" href="__PUBLIC__/Js/jmodal/jquery.jmodal.css" />
+<script type="text/javascript" src="__PUBLIC__/Js/jmodal/jquery.jmodal.js"></script>
+<script type="text/javascript">
+/*
+*兼容Ie && Firefox 的CopyToClipBoard
+*
+*/
+function copyToClipBoard(txt) {
+    if (window.clipboardData) {
+        window.clipboardData.clearData();
+        window.clipboardData.setData("Text", txt);
+    } else if (navigator.userAgent.indexOf("Opera") != -1) {
+        //do nothing      
+    } else if (window.netscape) {
+        try {
+            netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+        } catch (e) {
+            alert("被浏览器拒绝！\n请在浏览器地址栏输入'about:config'并回车\n然后将 'signed.applets.codebase_principal_support'设置为'true'");
+        }
+        var clip = Components.classes['@mozilla.org/widget/clipboard;1'].createInstance(Components.interfaces.nsIClipboard);
+        if (!clip)   return;
+        var trans = Components.classes['@mozilla.org/widget/transferable;1'].createInstance(Components.interfaces.nsITransferable);
+        if (!trans) return;
+        trans.addDataFlavor('text/unicode');
+        var str = new Object();
+        var len = new Object();
+        var str = Components.classes["@mozilla.org/supports-string;1"].createInstance(Components.interfaces.nsISupportsString);
+        var copytext = txt;
+        str.data = copytext;
+        trans.setTransferData("text/unicode", str, copytext.length * 2);
+        var clipid = Components.interfaces.nsIClipboard;
+        if (!clip)   return false;
+        clip.setData(trans, null, clipid.kGlobalClipboard);
+    }
+	$.fn.jmodal({
+                    data: {},
+                    title: '温馨提示',
+                    content: '已经成功复制邀请链接地址，请直接粘贴推荐给您的好友',
+                    buttonText: { ok: '确定', cancel: '' },
+                    fixed: false,
+					marginTop: 200,
+					okEvent: function(data, args) {
+                        args.hide();
+                    }
+                });
+}
+</script>
+{template '../Public/nav'}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_l" class="clear">
+                    <h2>邀请好友<span class="more">邀请好友 | <a href="{echo reUrl('User/myinvite');}">我的邀请</a></span></h2>
+                    <div></div>
+                    <table class="list">
+                <tbody><tr><td style="color:#f60" class="l">你可以通过QQ、微博、邮件或论坛发送给你的朋友</td></tr>
+                <tr><td class="l">
+                        <span style="float:left;">我的邀请地址：<input type="text" value="{$invite_link}" style="width:300px" onclick="this.select()" id="inviteurl" class="text copylink"></span>
+                        <span id="appdiv" style="float:left;position:relative;"><a id="copyit" class="btn" onclick="copyToClipBoard($('#inviteurl').val());"><span>复制邀请地址</span></a></span>
+                    </td></tr>
+                <tr><td class="l"> 
+                        <!-- Baidu Button BEGIN -->
+    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare">
+		<a class="bds_qzone" title="分享到QQ空间"></a>
+        <a class="bds_tsina" title="分享到新浪微博"></a>
+        <a class="bds_renren" title="分享到人人网"></a>
+        <a class="bds_kaixin001" title="分享到开心网"></a>
+        <a class="bds_tqf" title="分享到腾讯朋友"></a>
+        <a class="bds_douban" title="分享到豆瓣网"></a>
+        <a class="bds_taobao" title="分享到淘宝"></a>
+        <a class="bds_ty" title="分享到天涯社区"></a>
+        <a class="bds_baidu" title="分享到百度搜藏"></a>
+        <span class="bds_more">更多</span>
+		<a class="shareCount"></a>                
+    </div>
+<!-- Baidu Button END -->
+<script type="text/javascript" id="bdshare_js" data="type=tools" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+	document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+</script>
+                    </td></tr>
+                    <!--<tr><td class="l">邀请链接被点击：积分 + 0</td></tr>-->
+                <tr><td class="l">点击链接并注册：积分 + {$_CFG.invite_credit}</td></tr>
+				</tbody></table>
+                </div>
+            </div>
+            <div class="main_r" style="width: 320px;">
+    <ul class="sidebar">
+    {template '../User/profile'}
+	</ul>
+</div>
+        </div>
+    </div>
+{template "../Public/footer"}

@@ -1,0 +1,45 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr>
+		<th class="first">旧密码：</th>
+		<td><input name="old_password" type="password"  size="40" class="textinput requireinput required" value="" /></td>
+	</tr>
+    <tr>
+		<th class="first">新密码：</th>
+		<td><input name="password" id="password" type="password"  size="40" class="textinput requireinput" value="" /></td>
+	</tr>
+    <tr>
+		<th class="first">确认新密码：</th>
+		<td><input name="confirm_password" id="confirm_password" type="password"  size="40" class="textinput requireinput" value="" /></td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+</form>
+<script type="text/javascript">
+<!--{literal}-->
+$(document).ready(function() {
+			$("#form_post").validate();
+			$('#password').rules('add', {
+						 		required: true,
+								minlength: 6
+						 		});
+			$('#confirm_password').rules('add', {
+						 		required: true,
+								minlength: 6,
+								equalTo:'#password'
+						 		});
+});
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

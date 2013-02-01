@@ -1,0 +1,52 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody><tr>
+		<th width="200" class="first">广告位名称：</th>
+		<td><input name="position_name" type="text"  size="40" class="textinput requireinput required" value="{$position.position_name}" /></td>
+	</tr>
+	<tr>
+		<th class="first">广告位宽度：</th>
+		<td><input name="ad_width" type="text"  size="10" class="textinput requireinput required number" value="{$position.ad_width}" />像素</td>
+	</tr>
+    <tr>
+		<th class="first">广告位高度：</th>
+		<td><input name="ad_height" type="text"  size="10" class="textinput requireinput required number" value="{$position.ad_height}" />像素</td>
+	</tr>
+    <tr>
+		<th class="first">广告位描述：</th>
+		<td><input name="position_desc" type="text"  size="40" class="textinput" value="{$position.position_desc}" /></td>
+	</tr>
+    <tr style="display:none;">
+		<th class="first">广告位模板：</th>
+		<td>
+        <textarea rows="6" cols="55" name="position_style" class="requireinput"><!--{if $smarty.const.ACTION_NAME eq 'add'}-->
+<!--{literal}-->&lt;table cellpadding="0" cellspacing="0"&gt;
+{foreach from=$ads item=ad}
+&lt;tr&gt;&lt;td&gt;{$ad}&lt;/td&gt;&lt;/tr&gt;
+{/foreach}
+&lt;/table&gt;<!--{/literal}--><!--{else}-->{$position.position_style}<!--{/if}--></textarea>
+        </td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="position_id" type="hidden" value="{$position.position_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+<!--{literal}-->
+$("#form_post").validate();
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

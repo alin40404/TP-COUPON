@@ -1,0 +1,63 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/dataList.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="handle-btns">
+</div>
+<div class="search-box">
+    <form action="?">
+        <span>昵称</span>
+        <input type="text" size="12" name="nick" value="" class="textinput">
+		<small></small>
+		<input type="submit" value="搜索" class="submit_btn">
+        <input type="hidden" value="{$smarty.const.GROUP_NAME}" name="g">
+		<input type="hidden" value="{$smarty.const.MODULE_NAME}" name="m">
+		<input type="hidden" value="{$smarty.const.ACTION_NAME}" name="a">
+  </form>
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('id[]', this)"></th>
+<th>昵称</th>
+<th width="150">E-mail</th>
+<th width="60">积分</th>
+<th width="80">金钱(:元)</th>
+<th width="150">最后登陆时间</th>
+<th width="100">最后登陆IP</th>
+<th width="60">锁定</th>
+<th width="130">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$users item=item}-->
+<tr id="tt-item-{$item.user_id}">
+<td class="first"><input type="checkbox" value="{$item.user_id}" name="id[]"></td>
+<td align="left">{$item.nick}</td>
+<td align="left">{$item.email}</td>
+<td align="left"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="User" pk="" href="javascript:;" onclick="textEdit(this,'{$item.user_id}','credit')">{$item.credit}</span></td>
+<td align="left"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="User" pk="" href="javascript:;" onclick="textEdit(this,'{$item.user_id}','money')">{$item.money}</span></td>
+<td align="center">{$item.last_login}</td>
+<td align="center">{$item.last_ip}</td>
+<td align="center"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="User" pk="" href="javascript:;" onclick="toggleStatus(this,'{$item.user_id}','is_locked')"><img src="__PUBLIC__/Css/Admin/Images/status-{$item.is_locked}.gif" class="status" status="{$item.is_locked}" /></span></td>
+<td align="center"><a href="?g={$smarty.const.GROUP_NAME}&m=Payment&nick={$item.nick|escape:'url'}">充值记录</a>
+</td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+{include file="../Public/footer.html"}

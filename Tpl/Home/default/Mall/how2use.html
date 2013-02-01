@@ -1,0 +1,110 @@
+{template "../Public/header"}
+{template "../Public/nav"}
+<div class="w990 clear">
+        <div class="clear" style="margin: 8px 0">
+        </div>
+        <div id="main" style="padding-top: 0;">
+            <div class="main_l">
+                <h2>{$mall.name}优惠券使用方法</h2>
+                
+                <div class="w630">
+                    <a rel="nofollow" href="{echo reUrl('Mall/out?id='.$mall['id']);}" title="去{$mall.name}购物" target="_blank" class="ui_btn_red" style="margin-top: 20px; text-decoration: none; color: white"><span class="ui_btn_red_in">去{$mall.name}购物</span></a> &nbsp;&nbsp; <a href="{echo reUrl('Mall/view?id='.$mall['id']);}" title="更多{$mall.name}优惠券" target="_blank" class="ui_btn_red" style="margin-top: 20px; text-decoration: none;
+                                color: white"><span class="ui_btn_red_in">更多{$mall.name}优惠券</span></a>
+                    <br>
+                    <br>
+                    <div id="how2use">{$mall.how2use}</div>
+                    <div class="clear">
+                    </div>
+                </div>
+                
+                <div class="dash_line"></div>
+                
+                <div class="main_l_i">
+                    <div class="main_l_c_c">
+                        <ul class="coupons-list" id="J_CouponsList">
+<!--{loop $codes $item}-->
+<li>
+    <div class="coupon-wrapper">
+        <div class="scissors">
+        </div>
+        <h2>
+            <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id])}" target="_blank">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}</a>
+            
+            <!--<i class="hot">hot</i>-->
+            
+        </h2>
+        <a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}" class="coupon" target="_blank">
+            <span class="left"><span class="description"><!--{if $item['c_type']==1}-->满<em>{$item.money_max}</em>减<em>{$item.money_reduce}</em><!--{else}--><em>{$item.money_amount}</em>元代金券<!--{/if}-->
+            </span><span class="store-logo">
+                <img src="{echo FixedUploadedFileUrl($mall[logo]);}" style="display: block;"></span> </span>
+            <span class="right">
+                
+                <em class="free"><!--{if $item['price_type']==1}-->免费<!--{elseif $item['price_type']==2}-->{$item.price}元<!--{elseif $item['price_type']==3}-->{$item.price}积分<!--{/if}--></em>
+                
+                <span class="get"><b></b>立即领取</span>
+                
+            </span></a>
+        
+        <div class="info">
+            
+            <span><!--{if $item['expiry_type']==1}--><!--{if $item['expiry']==0}-->已结束<!--{else}-->还剩 <i><!--{if $item['expiry']>$_CFG['max_left_days']}-->{$_CFG['max_left_days']}<!--{else}-->{$item.expiry}<!--{/if}--></i> 天<!--{/if}--><!--{else}-->长期有效<!--{/if}--></span><span>已领:<i>{$item.fetched_amount}</i></span><span>剩余:<i>{echo $item['amount']-$item['fetched_amount'];}</i></span>
+            
+            <span><a class="store-from" href="{echo reUrl('Mall/view?id='.$item[m_id])}">{$item.m_name}优惠券</a></span>
+        </div>
+        
+    </div>
+</li>
+<!--{/loop}-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="main_r" style="width: 320px;">
+                <ul class="sidebar">
+                    <li class="blue">
+                        <h3>
+                            商家信息</h3>
+                        <div class="sidebar_s clear">
+                            <div class="sidebar_s_l">
+                                <a href="{echo reUrl('Mall/view?id='.$mall['id']);}">
+                                    <img src="{echo FixedUploadedFileUrl($mall[logo]);}" alt="{$mall.name}"></a>
+                                <div class="gobuy">
+                                    <a rel="nofollow" href="{echo reUrl('Mall/out?id='.$mall['id']);}" target="_blank" class="btn counter"><span>去商家购物</span></a></div>
+                            </div>
+                            <div class="sidebar_s_i">
+                                商家名称：<a rel="nofollow" href="{echo reUrl('Mall/out?id='.$mall['id']);}">{$mall.name}</a><br>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="yellow">
+                        <h3>
+                            领取最多的优惠券列表</h3>
+                        <ol class="rank_coupon">
+                            <!--{eval $hot=coupon_codes_hot('week', 10);}-->
+                            <!--{loop $hot $item}-->
+                            <li><a title="{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}" href="{echo reUrl('Code/view?id='.$item[c_id]);}">{if $item['title']}{$item.title}{else}{$item.m_name}{if $item['c_type']==1}满{$item.money_max}减{$item.money_reduce}元优惠码{else}{$item.money_amount}元代金券{/if}{/if}</a></li>
+                            <!--{/loop}-->
+                        </ol>
+                    </li>
+                    <li class="yellow_b">
+                        <h3>
+                            推荐商城</h3>
+                        <ul class="twocol img">
+                            <!--{eval $mall_recs=rec_malls(102);}-->
+                            <!--{loop $mall_recs $item}-->
+                            <li><a title="{$item.name}优惠券" href="{echo reUrl('Mall/view?id='.$item['c_id']);}">
+                                <img width="90" src="{echo FixedUploadedFileUrl($item[logo]);}"><br>
+                                {$item.name}优惠券</a></li>
+                            <!--{/loop}-->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	ReImgSize('how2use',620,580);
+						   });
+</script>
+{template "../Public/footer"}

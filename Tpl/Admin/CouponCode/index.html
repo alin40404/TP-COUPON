@@ -1,0 +1,112 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/dataList.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function del(id)
+{
+	$('#dialog>p').html('将删除所有的优惠码及其他相关数据<br />确定要删除吗？');
+	$('#dialog').dialog('open');
+	$('#dialog').dialog({
+					autoOpen: false,
+					width: 300,
+					buttons: {
+						"确定": function() { 
+							var url = "?g="+g+"&m="+m+"&a=del&id="+id+"&ajax=1&_hash_="+_hash_;
+							$.getJSON(url, function(data){
+													if(data.status == 0){
+														$('#dialog>p').html('删除失败');
+														$('#dialog').dialog('open');
+													}else{
+														$('#tt-item-'+id).remove();
+														$('#dialog').dialog('close');
+													}
+													});
+						},
+						"取消": function() { 
+							$(this).dialog("close"); 
+						}
+					}
+				});
+}
+function set_best()
+{
+	if(check_count('id[]') == 0){
+		$('#dialog>p').html('请选择优惠券');
+		$('#dialog').dialog('open');
+		return false;
+	}
+	if(check_count('id[]') > 1){
+		$('#dialog>p').html('只能选择一个优惠券');
+		$('#dialog').dialog('open');
+		return false;
+	}
+	var id = get_check_val('id[]');
+	var url = "?g="+g+"&m="+m+"&a=set_best&id="+id;
+	window.location.href = url;
+}
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="handle-btns tabs-title">
+	<div class="img-button "><p><input type="button" class="addData" onclick="window.location.href='?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=add'" value="添加" name="addData" id="addData"></p></div>
+    	<div class="img-button "><p><input type="button" class="addData" onclick="window.location.href='?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=import'" value="批量导入" name="addData" id="addData"></p></div>
+    <div class="img-button "><p><input type="button" class="addData" onclick="set_best()" value="设为每日精选" name="addData" id="addData"></p></div>
+    <div class="tt-item "><p><a href="http://soft.qfanqie.com/forum.php?mod=forumdisplay&fid=42" target="_blank">获取优惠券</a></p></div>
+</div>
+<div class="search-box">
+    <form action="?">
+        <span>商家名</span>
+        <input type="text" size="12" name="kw" value="" class="textinput">
+		<small></small>
+		<input type="submit" value="搜索" class="submit_btn">
+        <input type="hidden" value="{$smarty.const.GROUP_NAME}" name="g">
+		<input type="hidden" value="{$smarty.const.MODULE_NAME}" name="m">
+		<input type="hidden" value="{$smarty.const.ACTION_NAME}" name="a">
+  </form>
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('id[]', this)"></th>
+<th>名称</th>
+<th width="100">有效期</th>
+<th width="130">价格</th>
+<th width="60">数量</th>
+<th width="70">已领取数量</th>
+<th width="80">剩余数量</th>
+<th width="60">排序</th>
+<th width="60">激活</th>
+<th width="130">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$codes item=item}-->
+<tr id="tt-item-{$item.c_id}">
+<td class="first"><input type="checkbox" value="{$item.c_id}" name="id[]"></td>
+<td align="left"><!--{if $item.title}--><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=view&c_id={$item.c_id}">{$item.title}</a><!--{else}--><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=view&c_id={$item.c_id}">{$item.m_name}<!--{if $item.c_type==1}-->满{$item.money_max}减{$item.money_reduce}元优惠券<!--{else}-->{$item.money_amount}代金券<!--{/if}--></a><!--{/if}--></td>
+<td align="left"><!--{if $item.expiry_type==1}-->{$item.expiry}<!--{else}-->无限制<!--{/if}--></td>
+<td align="left"><!--{if $item.price_type==1}-->免费<!--{elseif $item.price_type==2}-->{$item.price}元<!--{elseif $item.price_type==3}-->{$item.price}积分<!--{/if}--></td>
+<td align="left">{$item.amount}</td>
+<td align="center">{$item.fetched_amount}</td>
+<td align="center">{$item.amount-$item.fetched_amount}</td>
+<td align="center"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="" pk="" href="javascript:;" onclick="textEdit(this,'{$item.c_id}','sort_order')">{$item.sort_order}</span></td>
+<td align="center"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="" pk="" href="javascript:;" onclick="toggleStatus(this,'{$item.c_id}','is_active')"><img src="__PUBLIC__/Css/Admin/Images/status-{$item.is_active}.gif" class="status" status="{$item.is_active}" /></span></td>
+<td align="center"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=code&c_id={$item.c_id}">优惠码管理</a>&nbsp;&nbsp;<a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=edit&c_id={$item.c_id}">编辑</a>
+&nbsp;&nbsp;<a onclick="del({$item.c_id})" href="javascript:;">删除</a>
+</td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+{include file="../Public/footer.html"}

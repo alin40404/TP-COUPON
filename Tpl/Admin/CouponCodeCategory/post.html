@@ -1,0 +1,46 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr>
+		<th width="200" class="first">上级分类：</th>
+		<td><select name="parent_id">
+			<option value="0">顶级分类...</option>
+			<!--{foreach from=$categorys item=item}-->
+			<option value="{$item.id}" {if $category.parent_id eq $item.id}selected{/if}>{$item.prefix}{$item.name}</option>
+			<!--{/foreach}-->
+			</select>(最多2级分类)</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">分类名称：</th>
+		<td><input name="name" type="text"  size="40" class="textinput requireinput required" value="{$category.name}" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">排序：</th>
+		<td><input name="sort_order" type="text"  size="10" class="textinput requireinput required number" value="{$category.sort_order|default:1}" />(排序为从小到大)</td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="id" type="hidden" value="{$category.id|default:'0'}" />
+</form>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var a = '{$smarty.const.ACTION_NAME}';
+<!--{literal}-->
+$("#form_post").validate();
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

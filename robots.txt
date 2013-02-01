@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /Addons/
+Disallow: /Api/
+Disallow: /Common/
+Disallow: /Conf/
+Disallow: /Lang/
+Disallow: /Lib/
+Disallow: /Public/Css/
+Disallow: /Public/Js/
+Disallow: /Runtime/
+Disallow: /ThinkPHP/
+Disallow: /Tpl/
+Disallow: /uc_client/

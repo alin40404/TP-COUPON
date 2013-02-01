@@ -1,0 +1,47 @@
+{template '../Public/header'}
+<meta http-equiv='Refresh' content='{$waitSecond};URL={$jumpUrl}'>
+{template '../Public/nav'}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_l" class="clear" style=" width:988px;">
+                    <h2 class="login_t"  style=" width:986px;">提示信息</h2>
+                    <table cellpadding="0" cellspacing="0" align="center" class="table-tootip table-tootip-success" width="100%" style="margin:30px 0px 30px 0px;">
+                                <!--{if $message}-->
+								<tr>
+									<th width="320" align="right"><img src="__PUBLIC__/Images/Home/success.png" align="right" /></th>
+									<td>
+										<!--<p>{$msgTitle}</p>-->
+										<p style="color:blue;">{$message}</p>
+                                        <!--{if ! $closeWin}-->
+										<p>系统将在 <strong style="color:blue;" class="wait-second">{$waitSecond}</strong> 秒后自动关闭，如果不想等待,直接点击 <a href="{$jumpUrl}">这里</a></p>
+										<!--{/if}-->
+									</td>
+								</tr>
+								<!--{/if}-->
+                                <!--{if $error}-->
+								<tr>
+									<th width="320" align="right"><img src="__PUBLIC__/Images/Home/error.png" align="right" /></th>
+									<td>
+										<!--<p>{$msgTitle}</p>-->
+										<p style="color:#f30;">{$error}</p>
+										<!--{if ! $closeWin}-->
+										<p>系统将在 <strong style="color:blue;" class="wait-second">{$waitSecond}</strong> 秒后自动关闭，如果不想等待,直接点击 <a href="{$jumpUrl}">这里</a></p>
+										<!--{/if}-->
+									</td>
+								</tr>
+								<!--{/if}-->
+                                <!--{if $closeWin}-->
+								<tr>
+									<th width="320" align="right"><img src="__PUBLIC__/Images/Home/close.png" align="right" /></th>
+									<td>
+										<p>系统将在 <strong style="color:blue;" class="wait-second">{$waitSecond}</strong> 秒后自动关闭，如果不想等待,直接点击 <a href="{$jumpUrl}">这里</a></p>
+									</td>
+								</tr>
+								<!--{/if}-->
+							</table>
+                </div>
+            </div>
+        </div>
+    </div>
+{template "../Public/footer"}

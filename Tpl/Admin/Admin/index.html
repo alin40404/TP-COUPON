@@ -1,0 +1,94 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/dataList.js"></script>
+<div class="handle-btns">
+	<div class="img-button "><p><input type="button" class="addData" onclick="window.location.href='?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=add'" value="添加" name="addData" id="addData"></p></div>
+	</div>
+<div class="search-box">
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('user_id[]', this)"></th>
+<th width="50">ID</th>
+<th width="80">用户名</th>
+<th>角色</th>
+<th width="150">最后登陆时间</th>
+<th width="80">最后登陆IP</th>
+<th width="60">锁定</th>
+<th width="100">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$users item=item}-->
+<tr id="tt-item-{$item.user_id}">
+<td class="first"><input type="checkbox" value="{$item.user_id}" name="user_id[]"></td>
+<td>{$item.user_id}</td>
+<td align="left">{$item.user_name}</td>
+<td align="left">
+<!--{foreach from=$item.roles item=r}-->
+{$r.role_name}&nbsp;
+<!--{/foreach}-->
+</td>
+<td align="left">{$item.last_login}</td>
+<td align="left">{$item.last_ip}</td>
+<td align="center">
+<!--{if $item.is_super neq 1}-->
+<span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="AdminUsers" pk="" href="javascript:;" onclick="toggleStatus(this,'{$item.user_id}','is_locked')"><img src="__PUBLIC__/Css/Admin/Images/status-{$item.is_locked}.gif" class="status" status="{$item.is_locked}" /></span>
+<!--{else}-->
+&nbsp;
+<!--{/if}-->
+</td>
+<td align="center"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=edit&user_id={$item.user_id}">编辑</a>
+<!--{if $item.is_super neq 1}-->
+&nbsp;&nbsp;<a onclick="del({$item.user_id})" href="javascript:;">删除</a>
+<!--{/if}-->
+</td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function del(id)
+{
+	$('#dialog>p').html('确定要删除吗？');
+	$('#dialog').dialog('open');
+	$('#dialog').dialog({
+					autoOpen: false,
+					width: 300,
+					buttons: {
+						"确定": function() { 
+							var url = "?g="+g+"&m="+m+"&a=del&id="+id+"&ajax=1&_hash_="+_hash_;
+							$.getJSON(url, function(data){
+													if(data.status == 0){
+														$('#dialog>p').html('删除失败');
+														$('#dialog').dialog('open');
+													}else{
+														_hash_ = data.info;
+														$('#tt-item-'+id).remove();
+														$('#dialog').dialog("close"); 
+													}
+													});
+						},
+						"取消": function() { 
+							$(this).dialog("close"); 
+						}
+					}
+				});
+}
+
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

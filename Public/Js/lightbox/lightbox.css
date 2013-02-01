@@ -1,0 +1,18 @@
+.lightboxMask{background:#000 none repeat scroll 0% 0%; position: fixed; z-index: 9998;top: 0px; left: 0px; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; opacity: 0.5;filter:Alpha(Opacity=50)}
+* html div.lightboxMask{ position:absolute;}
+.lightbox {position:fixed;_position:absolute; right:16px;top:50%;left:50%; z-index:9999; background-color:#494747;}   
+* html div.lightbox {position:absolute; right:16px;top:50%;left:50%; z-index:9999;background-color:#494747;}
+.lightbox .content{ background:#fff;}
+.lightbox .content .close{ height:20px; line-height:20px; text-align:right;}
+.lightbox .d_header {
+    background: none repeat scroll 0 0 #191919;
+    height: 33px;
+}
+.lightbox .d_header h4 {
+    color: #FFFFFF;
+    float: left;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 33px;
+    padding-left: 2px;
+}

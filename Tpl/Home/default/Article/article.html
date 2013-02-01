@@ -1,0 +1,26 @@
+{template '../Public/header'}
+{template '../Public/nav'}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l">
+                <div id="main_l_b" class="clear">
+                    <h2>{$article.title}</h2>
+                    <div class="w630">{$article.content}</div>
+                </div>
+            </div>
+            <div class="main_r" style="width: 320px;">
+                
+<ul class="sidebar">
+    <li class="blue green">
+        <h3>
+            相关信息</h3>
+        <ul class="twocol">
+            <li class="curr"><a href="__ROOT__/Html/about.html" tittle="关于我们">关于我们</a></li><li><a href="__ROOT__/Html/contact.html" tittle="联系我们">联系我们</a></li><li><a href="__APP__?m=Article&a=links" tittle="友情链接">友情链接</a></li>
+        </ul>
+    </li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+{template '../Public/footer'}

@@ -1,0 +1,72 @@
+{include file="../Public/header.html"}
+<script type="text/javascript">
+<!--{literal}-->
+function chgtab(tt_item_id){
+	$('.tabs-title>div').removeClass('active');
+	$('.tabs-title>div#tt-item-'+tt_item_id).addClass('active');
+	$('.form-table').css('display','none');
+	$('#'+tt_item_id+'-table').css('display','block');
+}
+<!--{/literal}-->
+</script>
+<div class="tabs-title">
+<!--{foreach from=$group_list item=group name="bar_group"}-->
+<div rel="{$group.name}" class="tt-item {if $smarty.foreach.bar_group.iteration eq 1}active{/if}" id="tt-item-{$group.code}"><p><a href="javascript:;" onclick="chgtab('{$group.code}');">{$group.name}</a></p></div>
+<!--{/foreach}-->
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form" enctype="multipart/form-data">
+    {foreach from=$group_list item=group name="body_group"}
+    <div style="height:auto; width:100%; {if $smarty.foreach.body_group.iteration neq 1}display:none;{/if}" class="form-table" id="{$group.code}-table">
+    <table width="100%" cellspacing="0" cellpadding="4" border="0" class="table-form tabs-item tabs-active">
+    
+      {foreach from=$group.vars item=var key=key}
+      {include file="./setting_form.html"}
+      {/foreach}
+    </table>
+    </div>
+    {/foreach}
+
+<table cellspacing="0" cellpadding="4" border="0" style="border-top:none;" class="table-form">
+	<tbody><tr class="act">
+		<th width="200" class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+</form>
+<script language="JavaScript">
+var ReWriteSelected = null;
+var ReWriteRadiobox = document.getElementsByName("value[209]");
+<!--{literal}-->
+for (var i=0; i<ReWriteRadiobox.length; i++)
+{
+  if (ReWriteRadiobox[i].checked)
+  {
+    ReWriteSelected = ReWriteRadiobox[i];
+  }
+}
+
+function ReWriterConfirm(sender)
+{
+  if (sender == ReWriteSelected) return true;
+  var res = true;
+  if (sender != ReWriteRadiobox[0]) {
+    var res = confirm('URL Rewrite 功能要求您的 Web Server 必须是 Apache，\n并且起用了 rewrite 模块。\n同时请您确认是否已经将htaccess.txt文件重命名为.htaccess。\n如果服务器上还有其他的重写规则请去掉注释,请将RewriteBase行的注释去掉,并将路径设置为服务器请求的绝对路径');
+  }
+
+  if (res==false)
+  {
+      ReWriteSelected.checked = true;
+  }
+  else
+  {
+    ReWriteSelected = sender;
+  }
+  return res;
+}
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

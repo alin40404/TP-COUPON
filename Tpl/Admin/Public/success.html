@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>页面提示</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv='Refresh' content='{$waitSecond};URL={$jumpUrl}'>
+<link href="__PUBLIC__/Css/Admin/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="fanwe-body">
+		<div class="fb-title"><div><p><span>页面提示</span></p></div></div>
+		<div class="fb-body">
+			<table class="body-table" cellpadding="0" cellspacing="1" border="0">
+				<tr>
+					<td class="body-table-td">
+						<div class="body-table-div">
+							<table cellpadding="0" cellspacing="0" align="center" class="table-tootip table-tootip-success">
+                                <!--{if $message}-->
+								<tr>
+									<th><img src="__PUBLIC__/Css/Admin/Images/success.png" /></th>
+									<td>
+										<!--<p>{$msgTitle}</p>-->
+										<p style="color:blue;">{$message}</p>
+                                        <!--{if ! $closeWin}-->
+										<p>系统将在 <strong style="color:blue;" class="wait-second">{$waitSecond}</strong> 秒后自动关闭，如果不想等待,直接点击 <a href="{$jumpUrl}">这里</a></p>
+										<!--{/if}-->
+									</td>
+								</tr>
+								<!--{/if}-->
+                                <!--{if $error}-->
+								<tr>
+									<th><img src="__PUBLIC__/Css/Admin/Images/error.png" /></th>
+									<td>
+										<!--<p>{$msgTitle}</p>-->
+										<p style="color:#f30;">{$error}</p>
+										<!--{if ! $closeWin}-->
+										<p>系统将在 <strong style="color:blue;" class="wait-second">{$waitSecond}</strong> 秒后自动关闭，如果不想等待,直接点击 <a href="{$jumpUrl}">这里</a></p>
+										<!--{/if}-->
+									</td>
+								</tr>
+								<!--{/if}-->
+                                <!--{if $closeWin}-->
+								<tr>
+									<th><img src="__PUBLIC__/Css/Admin/Images/close.png" /></th>
+									<td>
+										<p>系统将在 <strong style="color:blue;" class="wait-second">{$waitSecond}</strong> 秒后自动关闭，如果不想等待,直接点击 <a href="{$jumpUrl}">这里</a></p>
+									</td>
+								</tr>
+								<!--{/if}-->
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+<!--{literal}-->
+jQuery(function($){
+	updateBodyDivHeight();
+	$(window).resize(function(){
+		updateBodyDivHeight();
+	});
+});
+
+function updateBodyDivHeight()
+{
+	jQuery(".body-table-div").height(jQuery(".fanwe-body").height() - 37);
+}
+<!--{/literal}-->
+</script>
+</html>

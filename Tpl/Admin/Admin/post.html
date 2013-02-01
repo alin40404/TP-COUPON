@@ -1,0 +1,116 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+    <tr>
+		<th width="200" class="first">用户名：</th>
+		<td><input name="user_name" id="user_name" onblur="check_user_name_valid(false);" type="text"  size="40" class="textinput requireinput" value="{$user.user_name}" /><label class="error2" id="tip_user_name"></label></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">密码：</th>
+		<td><input name="password" id="password" type="password"  size="40" class="textinput requireinput" value="" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">确认密码：</th>
+		<td><input name="confirm_password" id="confirm_password" type="password"  size="40" class="textinput requireinput" value="" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">角色：</th>
+		<td id="group_role_id">
+        <!--{foreach from=$roles item=item}-->
+        <label><input name="role_id[]" type="checkbox" class="atLeastOneChecked" value="{$item.role_id}" {foreach from=$user.roles item=item2}{if $item2 eq $item.role_id}checked="checked"{/if}{/foreach} />{$item.role_name}</label>
+        <!--{/foreach}-->
+        </td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="user_id" id="user_id" type="hidden" value="{$user.user_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var a = '{$smarty.const.ACTION_NAME}';
+<!--{literal}-->
+$("#form_post").validate({
+   rules: {
+			user_name: {
+				required: true
+			}
+		},
+	
+	errorPlacement:function(error,element) {
+
+     if (element.attr("name") == "role_id[]")
+
+       error.appendTo("#group_role_id");
+
+     else
+
+       error.insertAfter(element);
+
+   }
+
+});
+
+jQuery(document).ready(function() {
+            $.validator.addMethod('atLeastOneChecked', function(value, element) {
+            		var checkedCount = 0;
+              			$("input[name='role_id[]']").each(function() { 
+               				if ($(this).attr('checked')) { checkedCount++; } 
+               			});
+              		return checkedCount>0;
+            
+        	},"请至少选择一项");
+			
+			if(a == 'add'){
+						$('#password').rules('add', {
+						 		required: true,
+								minlength: 6
+						 		});
+						$('#confirm_password').rules('add', {
+						 		required: true,
+								minlength: 6,
+								equalTo: "#password"
+						 		});
+			}
+});
+
+function check_user_name_valid(dosubmit)
+{
+	var user_name = $('#user_name').val();
+	var user_id = $('#user_id').val();
+	if(user_name == ''){
+		$('#tip_user_name').text('');
+		return false;
+	}
+	var url = "?g="+g+"&m="+m+"&a=check_user_name_valid&ajax=1&user_id="+user_id+"&user_name="+encodeURIComponent(user_name);
+		$.getJSON(url, function(data){
+									if(data.status == 0){
+										alert(data.info);
+									}else{
+										if(data.data.is_exist == 1){
+											$('#tip_user_name').text('该用户名已存在');
+										}else if(data.data.is_exist == 0){
+											$('#tip_user_name').text('');
+											if(dosubmit){
+												$('#form_post').submit();
+											}
+										}
+									}
+									});
+}
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

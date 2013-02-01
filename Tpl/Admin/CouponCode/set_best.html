@@ -1,0 +1,53 @@
+{include file="../Public/header.html"}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Js/WdatePicker/skin/WdatePicker.css" />
+<script type="text/javascript" src="__PUBLIC__/Js/WdatePicker/WdatePicker.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="javascript:;" name="" id="" onclick="history.back();">返回</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post" onsubmit="return formchk(this)">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+    <tr>
+		<th width="200" class="first">优惠券：</th>
+		<td><!--{if $code.title}-->{$code.title}<!--{else}-->{$code.m_name}<!--{/if}--><!--{if $code.c_type==1}-->满{$code.money_max}减{$code.money_reduce}元优惠券<!--{else}-->{$code.money_amount}代金券<!--{/if}--></td>
+	</tr>
+    <tr>
+		<th width="200" class="first"><label>*</label>有效期：</th>
+		<td><input type="Text" name="expiry" class="Wdate textinput"  id="expiry" onFocus="WdatePicker({literal}{{/literal}skin:'ext',dateFmt:'yyyy-MM-dd',isShowToday:false,lang:'zh_cn',readOnly:true{literal}}{/literal})" style="cursor: hand; width:160px;" value="{$best.expiry}"></td>
+	</tr>
+    <tr>
+		<th width="200" class="first"><label>*</label>排序：</th>
+		<td><input name="sort_order" type="text" value="{$best.sort_order|default:10000}" /></td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="返回" class="reset_btn" onclick="history.back();">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="id" type="hidden" value="{$code.c_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var a = '{$smarty.const.ACTION_NAME}';
+<!--{literal}-->
+function formchk(form)
+{
+	if(form.expiry.value == ''){
+		$('#dialog>p').html('请选择有效期');
+		$('#dialog').dialog('open');
+		return false;
+	}
+	if(form.sort_order.value == ''){
+		$('#dialog>p').html('请输入排序');
+		$('#dialog').dialog('open');
+		return false;
+	}
+}
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

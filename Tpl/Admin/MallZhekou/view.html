@@ -1,0 +1,40 @@
+{include file="../Public/header.html"}
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr>
+		<th width="200" class="first">分类：</th>
+		<td>{$zhekou.category}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">名称：</th>
+		<td>{$zhekou.title}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">商家：</th>
+		<td>{$zhekou.m_name}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">CPS跳转网址：</th>
+		<td><a href="{$zhekou.gourl}" target="_blank">{$zhekou.gourl}</a></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">使用优惠券：</th>
+		<td>{if $zhekou.use_coupon}可以使用{else}不可以使用{/if}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">价格：</th>
+		<td>{$zhekou.price} 元</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">LOGO：</th>
+		<td><img src="{$zhekou.logo|fixed_uploadfile_url}" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">折扣攻略：</th>
+		<td>{$zhekou.description}</td>
+	</tr>
+</tbody></table>
+{include file="../Public/footer.html"}

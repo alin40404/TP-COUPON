@@ -1,0 +1,33 @@
+{template "../Public/header"}
+{template "../Public/nav"}
+<div class="w990 clear">
+        <div id="main">
+            <div class="main_l" style="width: 990px;">
+                <div id="main_l_b" class="clear">
+                    <h2>
+                        <font color="red"><b>
+                            {$kw}</b></font>的搜索结果</h2>
+                    <ul class="search_l">
+                        <!--{loop $malls $item}-->
+                        <li class="normal clear">
+                            <div class="normal_l">
+                                <a href="{echo reUrl('Mall/view?id='.$item['id']);}" target="_blank">
+                                    <img src="{echo FixedUploadedFileUrl($item[logo]);}" alt="{$item.name}优惠券"></a>
+                                <br>
+                                <a href="{echo reUrl('Mall/view?id='.$item['id']);}" target="_blank">{$item.name}优惠券</a>
+                            </div>
+                            <div class="normal_m nw850">
+                                <h6>
+                                    <a href="{echo reUrl('Mall/view?id='.$item['id']);}" target="_blank">{$item.name}优惠券</a></h6>
+                                <ul class="normal_m_u">
+                                    <li class="content">{echo msubstr($item['description'], 0, 200, 'utf-8');}</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!--{/loop}-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{template "../Public/footer"}

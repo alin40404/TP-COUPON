@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>管理后台</title>
+<script type="text/javascript">var site_dir='__PUBLIC__';</script>
+<script type="text/javascript" src="__PUBLIC__/Js/common.js"></script>
+<style type="text/css">
+.nav_4{ height:25px; line-height:25px; width:100%; text-align:center; background:#336699; font-weight:bold; color:#DAE3EC;}
+table.tb{ background-color:#D3ECFC;}
+td.th{background-color:#417BAF; color:#fff; font-weight:bold;}
+td.item1 {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:#F1F5F8 none repeat scroll 0 0;
+padding:0 8px;
+}
+.table_list{
+background:none repeat scroll 0 0 #D5EDFD;
+border:1px solid #99D3FB;
+margin:0 auto;
+width:99%;
+}
+.table_list tr {
+background-color:#FFFFFF;
+}
+.table_list caption{
+background:url("__PUBLIC__/Css/Admin/Images/bg_table.jpg") repeat-x scroll 0 0 transparent;
+border-color:#99D3FB;
+border-style:solid;
+border-width:1px 1px 0;
+color:#077AC7;
+font-family:"宋体";
+font-size:12px;
+font-weight:bold;
+height:27px;
+line-height:27px;
+margin:6px auto 0;
+}
+.table_list th{
+background:url("__PUBLIC__/Css/Admin/Images/bg_table.jpg") repeat-x scroll 0 -26px transparent;
+color:#077AC7;
+font-size:12px;
+height:22px;
+line-height:22px;
+text-align:center;
+}
+
+.table_list th {
+font-weight:bold;
+}
+.table_list td {
+font-family:"宋体";
+font-size:12px;
+line-height:150%;
+padding:4px;
+}
+.td_over{ background-color:#eee;}
+.td_out{ background-color:#fff;}
+</style>
+<script type="text/javascript">
+<literal>
+$(document).ready(function(){
+	$("table.table_list>tbody>tr>td").each(function(i){
+						        $(this).mouseover(
+                                			function () {
+												$("td[rel="+$(this).attr('rel')+"],td[role="+$(this).attr('role')+"]").each(function(){
+																								   $(this).removeClass('td_out');
+																								   $(this).addClass('td_over');
+																								   });
+                                             });
+								$(this).mouseout(
+                                			function () {
+												$("td[rel="+$(this).attr('rel')+"],td[role="+$(this).attr('role')+"]").each(function(){
+																								   $(this).removeClass('td_over');
+																								   $(this).addClass('td_out');
+																								   });
+                                             });
+						        });
+});
+</literal>
+</script>
+</head>
+
+<body>
+<div class="nav_4" style="text-align:left;">&nbsp;权限设置</div>
+<br />
+<table width="100%" border="0" cellspacing="1" cellpadding="0" class="tb">
+  <tr>
+    <td class="th" height="25">&nbsp;提示信息</td>
+  </tr>
+  <tr>
+    <td class="item1" height="25">&nbsp;如果指定了模块管理权限，那么该角色就拥有此模块的所有操作权限</td>
+  </tr>
+</table>
+
+<form action="?g={$Think.GROUP_NAME}&m={$Think.MODULE_NAME}&a=priv" method="post" name="myform">
+<table cellspacing="1" cellpadding="0" class="table_list">
+  <caption>权限设置</caption>
+    <tbody><tr class="">
+      <th><strong>角色</strong></th>
+      <foreach name="module_privs" item="priv" key="priv_type">
+      <th><strong>{$priv.name}</strong></th>
+      </foreach>
+	</tr>
+    <foreach name="sysRoles" item="item" key="sysrole_key">
+    <tr class="">
+      <td>{$item.role_name}</td>
+      <foreach name="module_privs" item="priv" key="priv_type">
+      <td title="{$item.role_name},{$priv.name}" rel="{$priv_type}" role="{$item['role_id']}"><input type="checkbox" value="{$priv_type},{$item.role_id}" name="priv_roleid[]" <foreach name="privs" item="mpriv" key="mpriv_key"><if condition="($mpriv['roleid'] eq $item['role_id']) AND ($mpriv['priv'] eq $priv_type)">checked="checked"</if></foreach>></td>
+      </foreach>
+    </tr>
+    </foreach>
+</tbody></table>
+<div style="text-align: center; margin-top:10px;" class="button_box">
+<input type="submit" value=" 提交 " name="dosubmit" class="BigButtonA">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value=" 重置 " name="reset" class="BigButtonA">
+</div>
+</form>
+</body>
+</html>

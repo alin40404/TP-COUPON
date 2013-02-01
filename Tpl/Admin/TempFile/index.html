@@ -1,0 +1,52 @@
+{include file="../Public/header.html"}
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var a = 'clean';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function clean()
+{
+	$('#mask,#loading').show();
+	var post_data = "_hash_="+_hash_;
+	$.ajax({
+   		type: "POST",
+   		url: '?g='+g+'&m='+m+'&a='+a+'&ajax=1',
+   		data: post_data,
+   		success: function(msg){
+			$('#mask,#loading').hide();
+     		var result = eval("("+msg+")");
+			if(result.status == 0){
+				$('#dialog>p').html(result.info);
+				$('#dialog').dialog('open');
+				return false;
+			}else{
+				_hash_ = result.info;
+				$('#dialog>p').html('操作成功');
+				$('#dialog').dialog('open');
+				setTimeout(function(){
+									$('#dialog').dialog("close"); 
+									},2000);
+			}
+   		}
+		});
+}
+$(document).ready(function(){
+	$('#mask,#loading').css({'height':$(document).height(),'width':$(document).width()});
+});
+<!--{/literal}-->
+</script>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=clean" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody><tr>
+		<th class="first"><center><strong>确定要清除临时文件吗？<br />(该操作将清除今日之前上传的临时文件)</strong></center></th>
+		</tr>
+	<tr class="act">
+		<th class="first">
+		  <center><input type="button" onclick="clean();" value="确定" class="submit_btn"></center>	    </th>
+	  </tr>
+</tbody></table>
+</form>
+<div id="mask" style="background:#000 none repeat scroll 0% 0%; position: fixed; z-index: 9998;top: 0px; left: 0px; display:none; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; opacity: 0.8;filter:Alpha(Opacity=80)"></div>
+<div id="loading" style=" position:absolute; z-index: 9999;top: 0px; left: 0px; display:none;text-align:center"><img src="__PUBLIC__/Images/loading.gif" height="37" width="37" style="position:relative; top:160px;" /></div>
+{include file="../Public/footer.html"}

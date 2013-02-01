@@ -1,0 +1,128 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Js/WdatePicker/skin/WdatePicker.css" />
+<script type="text/javascript" src="__PUBLIC__/Js/WdatePicker/WdatePicker.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post" enctype="multipart/form-data">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+    <tr>
+		<th width="200" class="first">广告名称：</th>
+		<td><input name="ad_name" type="text"  size="40" class="textinput requireinput required" value="{$ad.ad_name}" /></td>
+	</tr>
+	<tr>
+		<th class="first">广告类型：</th>
+		<td>
+        <select onchange="switch_media_type(this.value)" name="media_type" class="requireinput required">
+        <!--{foreach from=$ad_media_type_conf item=item key=key}-->
+         <option value="{$key}" {if $smarty.const.ACTION_NAME eq 'edit' && $key eq $ad.media_type}selected="selected"{/if}>{$item}</option>
+         <!--{/foreach}-->
+         </select>
+        </td>
+	</tr>
+    <tr>
+		<th class="first">广告位置：</th>
+		<td>
+        <select name="position_id" class="requireinput required">
+        <!--{foreach from=$positions item=item}-->
+        <option value="{$item.position_id}" {if $smarty.const.ACTION_NAME eq 'edit' && $item.position_id eq $ad.position_id}selected="selected"{/if}>{$item.position_name}</option>
+        <!--{/foreach}-->
+        </select>
+        </td>
+	</tr>
+    <tr>
+		<th class="first">是否开启：</th>
+		<td><label><input name="enabled" type="radio" value="1" {if $smarty.const.ACTION_NAME eq 'add' || ($smarty.const.ACTION_NAME eq 'edit' && 1 eq $ad.enabled)}checked{/if} />开启</label><label><input name="enabled" type="radio" value="0" {if $smarty.const.ACTION_NAME eq 'edit' && 0 eq $ad.enabled}checked{/if} />关闭</label></td>
+	</tr>
+    <tr>
+		<th class="first">开始时间：</th>
+		<td>
+        <input type="Text" name="start_time" class="Wdate requireinput required"  id="start_time" onFocus="WdatePicker({literal}{{/literal}skin:'ext',dateFmt:'yyyy-MM-dd HH:mm',isShowToday:false,lang:'zh_cn',readOnly:true{literal}}{/literal})" style="cursor: hand; width:160px;" value="{$ad.start_time}">
+        </td>
+	</tr>
+    <tr>
+		<th class="first">结束时间：</th>
+		<td>
+        <input type="Text" name="end_time" class="Wdate requireinput required"  id="end_time" onFocus="WdatePicker({literal}{{/literal}skin:'ext',dateFmt:'yyyy-MM-dd HH:mm',isShowToday:false,lang:'zh_cn',readOnly:true{literal}}{/literal})" style="cursor: hand; width:160px;" value="{$ad.end_time}">
+        </td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" style="display:{if $smarty.const.ACTION_NAME eq 'add'}block{elseif $smarty.const.ACTION_NAME eq 'edit' && 101 eq $ad.media_type}block{else}none{/if};" class="table-form ad_group group_101">
+	<tbody>
+    <tr>
+		<th width="200" class="first">广告链接：</th>
+		<td><input name="ad_link" type="text"  size="40" class="textinput url" value="{$ad.ad_link}" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">上传广告图片：</th>
+		<td><input type='file' name='ad_img' size='40' /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">或图片网址：</th>
+		<td><input name="img_url" type="text"  size="40" class="textinput url" value="{if $smarty.const.ACTION_NAME eq 'edit' && 101 eq $ad.media_type}{$ad.ad_code}{/if}" /></td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" style="display:{if $smarty.const.ACTION_NAME eq 'add'}none{elseif $smarty.const.ACTION_NAME eq 'edit' && 102 eq $ad.media_type}block{else}none{/if};" class="table-form ad_group group_102">
+	<tbody>
+    <tr>
+		<th width="200" class="first">上传Flash文件：</th>
+		<td><input type='file' name='upfile_flash' size='40' /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">或Flash网址：</th>
+		<td><input name="flash_url" type="text"  size="40" class="textinput url" value="{if $smarty.const.ACTION_NAME eq 'edit' && 102 eq $ad.media_type}{$ad.ad_code}{/if}" /></td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" style="display:{if $smarty.const.ACTION_NAME eq 'add'}none{elseif $smarty.const.ACTION_NAME eq 'edit' && 103 eq $ad.media_type}block{else}none{/if};" class="table-form ad_group group_103">
+	<tbody>
+    <tr>
+		<th width="200" class="first">输入广告代码：</th>
+		<td>
+        <textarea rows="6" cols="55" name="ad_code">{if $smarty.const.ACTION_NAME eq 'edit' && 103 eq $ad.media_type}{$ad.ad_code}{/if}</textarea>
+        </td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" style="display:{if $smarty.const.ACTION_NAME eq 'add'}none{elseif $smarty.const.ACTION_NAME eq 'edit' && 104 eq $ad.media_type}block{else}none{/if};" class="table-form ad_group group_104">
+	<tbody>
+    <tr>
+		<th width="200" class="first">广告链接：</th>
+		<td><input name="ad_link2" type="text"  size="40" class="textinput url" value="{if $smarty.const.ACTION_NAME eq 'edit' && 104 eq $ad.media_type}{$ad.ad_link}{/if}" /></td>
+	</tr>
+    <tr>
+		<th width="200" class="first">广告内容：</th>
+		<td><textarea rows="6" cols="55" name="ad_text">{if $smarty.const.ACTION_NAME eq 'edit' && 104 eq $ad.media_type}{$ad.ad_code}{/if}</textarea></td>
+	</tr>
+</tbody>
+</table>
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+	<tr class="act">
+		<th width="200" class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="ad_id" type="hidden" value="{$ad.ad_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+<!--{literal}-->
+$("#form_post").validate();
+
+function switch_media_type(media_type)
+{
+	$('.ad_group').css('display','none');
+	$('.group_'+media_type).css('display','block');
+}
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}

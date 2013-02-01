@@ -1,0 +1,30 @@
+{include file="../Public/header.html"}
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=recs" name="" id="">返回推荐列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody>
+    <tr>
+		<th width="200" class="first">商城名称：</th>
+		<td>{$mall.name}</td>
+	</tr>
+    <tr>
+		<th width="200" class="first">推荐位：</th>
+		<td><select name="position" class="requireinput required">
+			<!--{foreach from=$mall_rec_position_conf item=item key=key}-->
+			<option value="{$key}">{$item}</option>
+			<!--{/foreach}-->
+			</select></td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="id" type="hidden" value="{$mall.id|default:'0'}" />
+</form>
+{include file="../Public/footer.html"}

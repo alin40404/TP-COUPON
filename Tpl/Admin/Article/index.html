@@ -1,0 +1,105 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function del(id)
+{
+	$('#dialog>p').html('确定要删除吗？');
+	$('#dialog').dialog('open');
+	$('#dialog').dialog({
+					autoOpen: false,
+					width: 300,
+					buttons: {
+						"确定": function() { 
+							var url = "?g="+g+"&m="+m+"&a=del&id="+id+"&ajax=1&_hash_="+_hash_;
+							$.getJSON(url, function(data){
+													if(data.status == 0){
+														$('#dialog>p').html('删除失败');
+														$('#dialog').dialog('open');
+													}else{
+														_hash_ = data.info;
+														$('#tt-item-'+id).remove();
+														$('#dialog').dialog("close"); 
+													}
+													});
+						},
+						"取消": function() { 
+							$(this).dialog("close"); 
+						}
+					}
+				});
+}
+
+function buildHtml()
+{
+	var id = get_check_val('article_id[]');
+	if(id == ''){
+		$('#dialog>p').html('请选择文章');
+		$('#dialog').dialog('open');
+		return false;
+	}
+	$('#mask,#loading').show();
+	var url = "?g="+g+"&m="+m+"&a=build_html&id="+id+"&ajax=1&_hash_="+_hash_;
+	$.getJSON(url, function(data){
+			$('#mask,#loading').hide();
+			if(data.status == 0){
+				$('#dialog>p').html('操作失败');
+				$('#dialog').dialog('open');
+			}else{
+				_hash_ = data.info;
+				$('#dialog>p').html('操作成功');
+				$('#dialog').dialog('open');
+				setTimeout(function(){
+									$('#dialog').dialog("close"); 
+									},2000);
+			}
+	});
+}
+
+$(document).ready(function(){
+	$('#mask,#loading').css({'height':$(document).height(),'width':$(document).width()});
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="handle-btns">
+	<div class="img-button "><p><input type="button" class="addData" onclick="window.location.href='?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=add'" value="添加" name="addData" id="addData"></p></div>
+    <div class="img-button "><p><input type="button" class="addData" onclick="buildHtml()" value="生成静态" name="addData" id="addData"></p></div>
+	</div>
+<div class="search-box">
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('article_id[]', this)"></th>
+<th>文章标题</th>
+<th width="120">分类</th>
+<th width="120">添加时间</th>
+<th width="100">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$articles item=item}-->
+<tr id="tt-item-{$item.article_id}">
+<td class="first"><input type="checkbox" value="{$item.article_id}" name="article_id[]"></td>
+<td align="left">{$item.title}</td>
+<td align="left">{$item.cate_name}</td>
+<td align="left">{$item.addtime}</td>
+<td align="center"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=edit&article_id={$item.article_id}">编辑</a>
+&nbsp;&nbsp;<a onclick="del({$item.article_id})" href="javascript:;">删除</a>
+</td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+<div id="mask" style="background:#000 none repeat scroll 0% 0%; position: fixed; z-index: 9998;top: 0px; left: 0px; display:none; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; opacity: 0.8;filter:Alpha(Opacity=80)"></div>
+<div id="loading" style=" position:absolute; z-index: 9999;top: 0px; left: 0px; display:none;text-align:center"><img src="__PUBLIC__/Images/loading.gif" height="37" width="37" style="position:relative; top:160px;" /></div>
+{include file="../Public/footer.html"}

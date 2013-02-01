@@ -1,0 +1,24 @@
+<li class="yellow">
+            <h3>
+                我的信息</h3>
+            <div class="sidebar_s clear">
+                <div class="sidebar_s_l">
+                    <a href="javascript:void(0);">
+                        <img src="{$user.avatar}" onerror="this.src='__PUBLIC__/Images/Home/avatar.jpeg'" alt="{$user.nick}"></a>
+                </div>
+                <div class="sidebar_s_i">
+                    <a href="javascript:void(0);">{$user.nick}</a>
+                    <br>积分：{$user.credit}
+                    <br>金钱：{$user.money}元
+                    <br>
+                </div>
+                <ul class="twocol user_link">
+                    <li><a href="{echo reUrl('User/codes');}" style="color: #f00">我领取的优惠券</a></li>
+                    <li><a href="{echo reUrl('Home/Payment/pay')}">账号充值</a></li>
+                	<li><a href="{echo reUrl('Home/User/consume_records')}">消费记录</a></li>
+                	<li><a href="{echo reUrl('Home/User/invite')}">邀请好友</a></li>
+                	<li><a href="{echo reUrl('Home/User/editpwd')}">修改密码</a></li>
+                	<li><a href="{echo reUrl('Home/User/logout')}">注销登录</a></li>
+                </ul>
+            </div>
+        </li>

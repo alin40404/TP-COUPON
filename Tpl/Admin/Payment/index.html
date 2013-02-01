@@ -1,0 +1,99 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/dataList.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function single_action(action, id)
+{
+	$('#dialog>p').html('确定要进行此操作吗？');
+	$('#dialog').dialog('open');
+	$('#dialog').dialog({
+					autoOpen: false,
+					width: 300,
+					buttons: {
+						"确定": function() { 
+							var url = "?g="+g+"&m="+m+"&a="+action+"&id="+id+"&ajax=1&_hash_="+_hash_;
+							$.getJSON(url, function(data){
+													if(data.status == 0){
+														$('#dialog>p').html('操作失败');
+														$('#dialog').dialog('open');
+													}else{
+														window.location.href = document.URL;
+													}
+													});
+						},
+						"取消": function() { 
+							$(this).dialog("close"); 
+						}
+					}
+				});
+}
+function del(id)
+{
+	single_action('del', id)
+}
+function send_goods(id)
+{
+	single_action('send_goods', id)
+}
+function finish(id)
+{
+	single_action('finish', id)
+}
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="handle-btns">
+</div>
+<div class="search-box">
+    <form action="?">
+        <span>昵称</span>
+        <input type="text" size="12" name="nick" value="" class="textinput">
+		<small></small>
+		<input type="submit" value="搜索" class="submit_btn">
+        <input type="hidden" value="{$smarty.const.GROUP_NAME}" name="g">
+		<input type="hidden" value="{$smarty.const.MODULE_NAME}" name="m">
+		<input type="hidden" value="{$smarty.const.ACTION_NAME}" name="a">
+  </form>
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('id[]', this)"></th>
+<th>昵称</th>
+<th width="200">交易号</th>
+<th width="200">支付宝交易号</th>
+<th width="80">金钱(:元)</th>
+<th width="150">说明</th>
+<th width="150">充值时间</th>
+<th width="150">状态</th>
+<th width="100">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$records item=item}-->
+<tr id="tt-item-{$item.id}">
+<td class="first"><input type="checkbox" value="{$item.id}" name="id[]"></td>
+<td align="left">{$item.nick}</td>
+<td align="left">{$item.out_trade_no}</td>
+<td align="left">{$item.trade_no}</td>
+<td align="left">{$item.amount}</td>
+<td align="center">{$item.content}</td>
+<td align="center">{$item.addtime}</td>
+<td align="center">{$item.status_type}</td>
+<td align="center"><!--{if $item.status==104}-->&nbsp;<!--{elseif $item.status==102}--><a href="javascript:;" onclick="send_goods({$item.id});">发货</a><!--{elseif $item.status==105}--><a href="javascript:;" onclick="finish({$item.id});">确认完成</a>&nbsp;&nbsp;<a href="javascript:;" onclick="del({$item.id});">删除</a><!--{else}--><a href="javascript:;" onclick="del({$item.id});">删除</a><!--{/if}--></td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+{include file="../Public/footer.html"}

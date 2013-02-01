@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link href="__PUBLIC__/Css/Admin/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">var _public_='__PUBLIC__';</script>
+<script type="text/javascript" src="__PUBLIC__/Js/common.js"></script>
+</head>
+<body style="background:#DEE4ED;padding:0; overflow:hidden; overflow-y:scroll;">
+	<div>
+		<div class="fanwe-menu" valign="top">
+        <!--{foreach item=nav from=$navs name=navs}-->
+		<dl>
+			<dt><div><strong>{$nav.displayName}</strong></div></dt>
+            <!--{foreach item=action from=$nav.actions name=actions}-->
+			<dd><p><a href="?g={$smarty.const.GROUP_NAME}&m={$nav.module}&a={$action.action}{foreach item=param key=key from=$action.params name=params}&{$key}={$param}{/foreach}" target="mainFrame">{$action.displayName}</a></p></dd>
+            <!--{/foreach}-->
+         </dl>
+         <!--{/foreach}-->
+	</div>
+	</div>
+<script type="text/javascript">
+<!--{literal}-->
+		if($("a:first").attr("href"))
+		{
+			top.document.getElementById("mainFrame").src = $("a:first").attr("href");
+			$("a:first").parent().parent().addClass("cur");
+		};
+		
+		$("a").click(function(){
+			$("a").each(function(){
+				$(this).parent().parent().removeClass("cur");
+			});
+			$(this).parent().parent().addClass("cur");
+			$(this).blur();
+		});
+<!--{/literal}-->
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.SetTableBgColor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/dataList.js"></script>
+<script type="text/javascript">
+var g = '{$smarty.const.GROUP_NAME}';
+var m = '{$smarty.const.MODULE_NAME}';
+var _hash_ = '{$_hash_}';
+<!--{literal}-->
+function del(id)
+{
+	$('#dialog>p').html('确定要删除吗？');
+	$('#dialog').dialog('open');
+	$('#dialog').dialog({
+					autoOpen: false,
+					width: 300,
+					buttons: {
+						"确定": function() { 
+							var url = "?g="+g+"&m="+m+"&a=del&id="+id+"&ajax=1&_hash_="+_hash_;
+							$.getJSON(url, function(data){
+													if(data.status == 0){
+														$('#dialog>p').html('删除失败');
+														$('#dialog').dialog('open');
+													}else{
+														_hash_ = data.info;
+														$('#tt-item-'+id).remove();
+														$('#dialog').dialog('close');
+													}
+													});
+						},
+						"取消": function() { 
+							$(this).dialog("close"); 
+						}
+					}
+				});
+}
+$(document).ready(function(){
+	$(".table-list").SetTableBgColor({
+            odd:"even",
+            even:"",
+            selected:"",
+            over:""
+        });
+});
+<!--{/literal}-->
+</script>
+<div class="handle-btns">
+	<div class="img-button "><p><input type="button" class="addData" onclick="window.location.href='?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=add'" value="添加活动" name="addData" id="addData"></p></div>
+	</div>
+<div class="search-box">
+    <form action="?">
+    	<span>分类</span>
+        <select name="cate_id">
+        <option value="0">不限...</option>
+        <!--{foreach from=$categorys item=item key=key}-->
+        <option value="{$item.id}">{$item.prefix}{$item.name}</option>
+        <!--{/foreach}-->
+        </select>
+        <span>关键字</span>
+        <input type="text" size="12" name="kw" value="" class="textinput">
+		<small></small>
+		<input type="submit" value="搜索" class="submit_btn">
+        <input type="hidden" value="{$smarty.const.GROUP_NAME}" name="g">
+		<input type="hidden" value="{$smarty.const.MODULE_NAME}" name="m">
+		<input type="hidden" value="{$smarty.const.ACTION_NAME}" name="a">
+  </form>
+</div>
+<table cellspacing="0" cellpadding="0" border="0" class="table-list list" id="checkList">
+<thead>
+<tr>
+<th width="30" class="first"><input type="checkbox" onclick="check_all('id[]', this)"></th>
+<th>活动名称</th>
+<th>活动类型</th>
+<th>CPS跳转网址</th>
+<th width="60">排序</th>
+<th width="100">操作</th>
+</tr>
+</thead>
+<tbody>
+<!--{foreach from=$promotions item=item}-->
+<tr id="tt-item-{$item.id}">
+<td class="first"><input type="checkbox" value="{$item.id}" name="id[]"></td>
+<td align="left"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=view&id={$item.id}">{$item.title}</a></td>
+<td align="left"><!--{foreach from=$item.cates item=item2 name=cates}-->{$item2.name}{if !$smarty.foreach.cates.last} &gt; {/if}<!--{/foreach}--></td>
+<td align="left"><a href="{$item.gourl}" target="_blank">{$item.gourl}</a></td>
+<td align="center"><span class="pointer" module="{$smarty.const.MODULE_NAME}" group="{$smarty.const.GROUP_NAME}" model="" pk="" href="javascript:;" onclick="textEdit(this,'{$item.id}','sort_order')">{$item.sort_order}</span></td>
+<td align="center"><a href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a=edit&id={$item.id}">编辑</a>
+&nbsp;&nbsp;<a onclick="del({$item.id})" href="javascript:;">删除</a>
+</td>
+</tr>
+<!--{/foreach}-->
+</tbody></table>
+<div class="pager">{$pagelink}</div>
+{include file="../Public/footer.html"}

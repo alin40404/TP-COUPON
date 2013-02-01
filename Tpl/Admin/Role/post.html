@@ -1,0 +1,29 @@
+{include file="../Public/header.html"}
+<script type="text/javascript" src="__PUBLIC__/Js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Js/jQuery.validate.message_cn.js"></script>
+<div class="handle-btns">
+	<div class="link-button"><p><a class="" href="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}" name="" id="">返回列表</a></p></div>
+</div>
+<form action="?g={$smarty.const.GROUP_NAME}&m={$smarty.const.MODULE_NAME}&a={$smarty.const.ACTION_NAME}" method="post" name="form_post" id="form_post">
+<table cellspacing="0" cellpadding="4" border="0" class="table-form">
+	<tbody><tr>
+		<th width="200" class="first">角色名称：</th>
+		<td><input name="role_name" id="role_name" type="text"  size="40" class="textinput requireinput required" value="{$role.role_name}" /></td>
+	</tr>
+	<tr class="act">
+		<th class="first">&nbsp;</th>
+		<td>
+			<input type="submit" value="提交" class="submit_btn">
+			<input type="reset" value="重置" class="reset_btn">
+		</td>
+	</tr>
+</tbody></table>
+<input name="_hash_" type="hidden" value="{$_hash_}" />
+<input name="role_id" id="role_id" type="hidden" value="{$role.role_id|default:'0'}" />
+</form>
+<script type="text/javascript">
+<!--{literal}-->
+$("#form_post").validate();
+<!--{/literal}-->
+</script>
+{include file="../Public/footer.html"}
