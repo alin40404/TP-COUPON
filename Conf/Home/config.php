@@ -1,6 +1,6 @@
 <?php
 return array (
-		'URL_MODEL' => 1, // URL模式,0:普通模式、2：REWRITE模式、3：兼容模式
+		'URL_MODEL' => 0, // URL模式,0:普通模式、1:默认模式、2：REWRITE模式、3：兼容模式
 		'URL_HTML_SUFFIX' => '.html',
 		'URL_PATHINFO_DEPR' => '-',
 		'LOGIN_MODULES' => array (
@@ -53,7 +53,9 @@ return array (
 		
 		'TMPL_ACTION_ERROR' => TMPL_PATH . 'Home/default/Public/success.html',
 		'TMPL_ACTION_SUCCESS' => TMPL_PATH . 'Home/default/Public/success.html',
+		
 		'APP_ACTION_DENY_LIST' => array(/*'User.after_logined'*/), // 禁止外部访问的操作
+		
 		'SPHINX_ON' => false,  // 开启sphinx检索引擎
 
 );

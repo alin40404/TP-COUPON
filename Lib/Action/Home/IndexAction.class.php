@@ -49,6 +49,8 @@ class IndexAction extends HomeCommonAction
 		$friendlinks = array();
 		$flService = service('FriendLinks');
 		$res = $flService->getAll();
+ 		//dump($res);
+		
 		if(is_array($res[101])){
 			foreach ($res[101] as $r){
 				$friendlinks[] = $res['all'][$r];

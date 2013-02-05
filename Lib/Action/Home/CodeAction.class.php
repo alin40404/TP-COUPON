@@ -267,6 +267,7 @@ class CodeAction extends HomeCommonAction
 				$title .= $detail['money_amount'] . '元代金券';
 			}
 		}
+		
 		$detail['title'] = $title;
 		import('@.Com.Util.Ubb');
 		$detail['data']['directions'] = Ubb::ubb2html($detail['data']['directions']);

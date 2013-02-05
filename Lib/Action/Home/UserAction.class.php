@@ -31,6 +31,7 @@ class UserAction extends HomeCommonAction
 			$pw = $_REQUEST['pw'];
 			$ucService = service('Uc');
 			$uid = $ucService->register($nick, $pw, $email);
+		
 			//成功注册到UC
 			if(!is_string($uid)){
 				//本地注册

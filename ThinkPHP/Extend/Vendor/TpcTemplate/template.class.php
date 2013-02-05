@@ -2,7 +2,6 @@
 require_once ('template.func.php');
 class Template
 {
-
 	const DIR_SEP = DIRECTORY_SEPARATOR;
 
 	/**
@@ -100,6 +99,7 @@ class Template
 		}
 	}
 
+	
 	/**
      * 通过魔术方法设定模板参数
      *
@@ -113,6 +113,7 @@ class Template
 		$this->set($name, $value);
 	}
 
+	
 	/**
      * 获取模板文件
      *

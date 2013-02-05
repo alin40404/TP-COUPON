@@ -1,5 +1,6 @@
 <?php
 $config = require(rtrim(dirname(__FILE__), '/\\') . DIRECTORY_SEPARATOR . "db_config.php");
+
 $array = array(
 'DB_FIELDS_CACHE'=>false, //缓存字段信息，开发时不缓存
 'DB_FIELDTYPE_CHECK'=>true,  // 开启字段类型检测
@@ -10,6 +11,7 @@ $array = array(
 'DEFAULT_GROUP'			=>	'Home',//默认分组
 'DEFAULT_MODULE'		=>	'Index',//默认模块
 'DEFAULT_ACTION'		=>	'index',//默认操作
+
 //'APP_SUB_DOMAIN_DEPLOY'	=>	1, // 开启子域名配置
 /*子域名配置  
  *格式如: '子域名'=>array('分组名/[模块名]','var1=a&var2=b');  
@@ -21,6 +23,7 @@ $array = array(
 'APP_AUTOLOAD_PATH'     => 'Think.Util,@.Service,@.Impl,@.Helper,@.Com,@.ORG',// __autoLoad 机制额外检测路径设置,注意搜索顺序
 'LOAD_EXT_CONFIG'	=>	array('_menus_'=>'menus', '_privs_'=>'privs'),//加载扩展配置
 
+		
 'LOG_RECORD' 		   => false, // 开启日志记录
 'LOG_LEVEL'     => 'EMERG,ALERT,CRIT,ERR,WARN,NOTICE,INFO,DEBUG,SQL', // 日志记录的级别
 

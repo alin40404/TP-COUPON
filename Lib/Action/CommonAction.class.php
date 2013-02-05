@@ -56,7 +56,7 @@ class CommonAction extends Action
      * @return void
      +----------------------------------------------------------
      */
-	protected   function display($templateFile='',$charset='',$contentType='text/html',$content='',$prefix='')
+	protected  function display($templateFile='',$charset='',$contentType='text/html',$content='',$prefix='')
 	{
 		if ($this->_CFG['open_gzip'] && extension_loaded('zlib') && strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
 			ini_set('zlib.output_compression', 'On');
@@ -67,6 +67,7 @@ class CommonAction extends Action
 		}else {
 			parent::display($templateFile,$charset,$contentType,$content,$prefix);
 		}
+		
 	}
 	
 	/**
