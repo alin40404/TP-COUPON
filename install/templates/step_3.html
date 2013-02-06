@@ -1,0 +1,38 @@
+{template header}
+	<div class="header">
+		<h1>TP-COUPON 安装向导</h1>
+		<span>V1.17 简体中文 UTF8 版</span>
+        <div class="setup step3">
+		<h2>安装数据库</h2>
+		<p>正在执行数据库安装</p>
+	</div>
+	<div class="stepstat">
+		<ul>
+			<li class="">1</li>
+			<li class="">2</li>
+			<li class="current">3</li>
+			<li class="unactivated last">4</li>
+		</ul>
+		<div class="stepstatbg stepstat1"></div>
+	</div>
+</div>
+<div class="main"><script type="text/javascript">
+
+function initinput() {
+	window.location='../admin.php';
+}
+</script>
+	<div class="main">
+		<div class="btnbox"><textarea name="notice" style="width: 80%;"  readonly="readonly" id="notice"></textarea></div>
+		<div class="btnbox marginbot">
+	<input type="button" name="submit" value="正在安装..." disabled style="height: 25" id="laststep" onclick="initinput()">
+	</div>
+<!--{eval runquery($sql);}-->
+<!--{eval init_administrator();}-->
+<!--{eval insert_config();}-->
+<!--{eval create_db_conf();}-->
+<!--{eval create_uc_conf();}-->
+<!--{eval create_install_lock();}-->
+<!--{eval finish_install();}-->
+<script type="text/javascript">document.getElementById("laststep").disabled=false;document.getElementById("laststep").value = '安装成功，点击进入下一步';</script>
+{template footer}

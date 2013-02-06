@@ -612,7 +612,6 @@ function send_mail($name, $email, $subject, $content, $type = 0, $notification =
  */
 function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 	$ckey_length = 4;
-	
 	$key = md5 ( $key ? $key : UC_KEY );
 	$keya = md5 ( substr ( $key, 0, 16 ) );
 	$keyb = md5 ( substr ( $key, 16, 16 ) );

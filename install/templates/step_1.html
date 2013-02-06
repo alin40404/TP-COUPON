@@ -1,0 +1,137 @@
+{template header}
+<div class="header">
+<h1>TP-COUPON 安装向导</h1>
+<span>V1.17 简体中文 UTF8 版</span>
+        <div class="setup step1">
+		<h2>开始安装</h2>
+		<p>环境以及文件目录权限检查</p>
+	</div>
+	<div class="stepstat">
+		<ul>
+			<li class="current">1</li>
+			<li class="unactivated">2</li>
+			<li class="unactivated">3</li>
+			<li class="unactivated last">4</li>
+		</ul>
+		<div class="stepstatbg stepstat1"></div>
+	</div>
+</div>
+<div class="main"><h2 class="title">环境检查</h2>
+<table class="tb" style="margin:20px 0 20px 55px;">
+<tr>
+	<th>项目</th>
+	<th class="padleft">TP-COUPON 所需配置</th>
+	<th class="padleft">TP-COUPON 最佳</th>
+	<th class="padleft">当前服务器</th>
+</tr>
+<tr>
+<td>操作系统</td>
+<td class="padleft">不限制</td>
+<td class="padleft">类Unix</td>
+<td class="w pdleft1">{PHP_OS}</td>
+</tr>
+<tr>
+<td>PHP 版本</td>
+<td class="padleft">4.0</td>
+<td class="padleft">5.2</td>
+<td class="{if PHP_VERSION<5.2}nw{else}w{/if} pdleft1">{PHP_VERSION}</td>
+</tr>
+<tr>
+<td>附件上传</td>
+<td class="padleft">不限制</td>
+<td class="padleft">2M</td>
+<td class="{if floatval(ini_get('upload_max_filesize'))<2}nw{else}w{/if} pdleft1"><!--{echo ini_get("upload_max_filesize")}--></td>
+</tr>
+<tr>
+<td>GD 库</td>
+<td class="padleft">1.0</td>
+<td class="padleft">2.0</td>
+<td class="{if gd_version()<2}nw{else}w{/if} pdleft1"><!--{echo gd_version()}--></td>
+</tr>
+</table>
+<h2 class="title">目录、文件权限检查</h2>
+<table class="tb" style="margin:20px 0 20px 55px;width:90%;">
+	<tr>
+	<th>目录文件</th>
+	<th class="padleft">所需状态</th>
+	<th class="padleft">当前状态</th>
+</tr>
+<tr>
+<td>./Conf/db_config.php</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Conf/db_config.php')}w{else}nw{/if} pdleft1">{if is_writable('../Conf/db_config.php')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Conf/config_ucenter.php</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Conf/config_ucenter.php')}w{else}nw{/if} pdleft1">{if is_writable('../Conf/config_ucenter.php')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime/Cache/Admin</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime/Cache/Admin')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime/Cache/Admin')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime/Cache/Home</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime/Cache/Home')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime/Cache/Home')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime/Cache/Public</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime/Cache/Public')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime/Cache/Public')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime/Data</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime/Data')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime/Data')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime/Data/_fields</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime/Data/_fields')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime/Data/_fields')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime/Logs</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime/Logs')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime/Logs')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Runtime/Temp</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Runtime/Temp')}w{else}nw{/if} pdleft1">{if is_writable('../Runtime/Temp')}可写{else}不可写{/if}</td>
+</tr>
+<tr>
+<td>./Public/Uploads</td><td class="w pdleft1">可写</td>
+<td class="{if is_writable('../Public/Uploads')}w{else}nw{/if} pdleft1">{if is_writable('../Public/Uploads')}可写{else}不可写{/if}</td>
+</tr>
+</table>
+<h2 class="title">函数依赖性检查</h2>
+<table class="tb" style="margin:20px 0 20px 55px;width:90%;">
+<tr>
+	<th>函数名称</th>
+	<th class="padleft">检查结果</th>
+	<th class="padleft">建议</th>
+</tr>
+<tr>
+<td>mysql_connect()</td>
+<td class="{if function_exists('mysql_connect')}w{else}nw{/if} pdleft1">{if function_exists('mysql_connect')}支持{else}不支持{/if}</td>
+<td class="padleft">无</td>
+<tr>
+<td>gethostbyname()</td>
+<td class="{if function_exists('gethostbyname')}w{else}nw{/if} pdleft1">{if function_exists('gethostbyname')}支持{else}不支持{/if}</td>
+<td class="padleft">无</td>
+<tr>
+<td>file_get_contents()</td>
+<td class="{if function_exists('file_get_contents')}w{else}nw{/if} pdleft1">{if function_exists('file_get_contents')}支持{else}不支持{/if}</td>
+<td class="padleft">无</td>
+<tr>
+<td>xml_parser_create()</td>
+<td class="{if function_exists('xml_parser_create')}w{else}nw{/if} pdleft1">{if function_exists('xml_parser_create')}支持{else}不支持{/if}</td>
+<td class="padleft">无</td>
+<tr>
+<td>curl()</td>
+<td class="{if function_exists('curl_init')}w{else}nw{/if} pdleft1">{if function_exists('curl_init')}支持{else}不支持{/if}</td>
+<td class="padleft">无</td>
+
+</table>
+<form action="step_2.php" method="get">
+<div class="btnbox marginbot"><input type="button" onclick="history.back();" value="上一步"><input type="submit" value="下一步">
+</div>
+</form>
+{template footer}

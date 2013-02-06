@@ -1,0 +1,141 @@
+{template header}
+	<div class="header">
+		<h1>TP-COUPON 安装向导</h1>
+		<span>V1.17 简体中文 UTF8 版</span>
+		<div class="setup step2">
+		<h2>安装数据库</h2>
+		<p>正在执行数据库安装</p>
+	</div>
+	<div class="stepstat">
+		<ul>
+			<li class="">1</li>
+			<li class="current">2</li>
+			<li class="unactivated">3</li>
+			<li class="unactivated last">4</li>
+		</ul>
+		<div class="stepstatbg stepstat1"></div>
+	</div>
+</div>
+<div class="main"><form method="post" action="step_3.php" id="setting_form">
+<table class="tb2">
+<div class="desc"><b>填写数据库信息</b></div>
+<tr><th class="tbopt">&nbsp;数据库服务器:</th>
+<td><input type="text" name="dbinfo[dbhost]" value="localhost" size="35" class="txt required"></td>
+<td>&nbsp;数据库服务器地址, 一般为 localhost</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;数据库端口号:</th>
+<td><input type="text" name="dbinfo[dbport]" value="3306" size="35" class="txt required"></td>
+<td>&nbsp;数据库服务器端口号, 一般为 3306</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;数据库名:</th>
+<td><input type="text" name="dbinfo[dbname]" value="tp_coupon" size="35" class="txt required"></td>
+<td>&nbsp;</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;数据库用户名:</th>
+<td><input type="text" name="dbinfo[dbuser]" value="root" size="35" class="txt required"></td>
+<td>&nbsp;</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;数据库密码:</th>
+<td><input type="password" name="dbinfo[dbpw]" value="" size="35" class="txt required"></td>
+<td>&nbsp;</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;数据表前缀:</th>
+<td><input type="text" name="dbinfo[tablepre]" value="dbs_" size="35" class="txt required"></td>
+<td>&nbsp;同一数据库运行多个程序时，请修改前缀</td>
+</tr>
+</table>
+
+<div class="desc"><b>填写管理员信息</b><br>请牢记 TP-COUPON 创始人密码，凭该密码登陆 TP-COUPON。</div>
+<table class="tb2">
+<tr><th class="tbopt">&nbsp;创始人帐号:</th>
+<td><input type="text" name="admininfo[user_name]" value="" size="35" class="txt required"></td>
+<td>&nbsp;</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;创始人密码:</th>
+<td><input type="password" name="admininfo[founderpw]" id="founderpw" value="" size="35" class="txt"></td>
+<td>&nbsp;</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;重复创始人密码:</th>
+<td><input type="password" name="admininfo[founderpw2]" id="founderpw2" value="" size="35" class="txt"></td>
+<td>&nbsp;</td>
+</tr>
+
+</table>
+
+<div class="desc"><b>填写UCENTER配置信息</b><br />请登陆Ucenter管理中心查看以下信息。<br />Ucenter 下载、安装、使用请参考：<a href="http://www.comsenz.com/downloads/install/ucenter" target="_blank">http://www.comsenz.com</a></div>
+<table class="tb2">
+<tr><th class="tbopt">&nbsp;UC数据库服务器:</th>
+<td><input type="text" name="uc[UC_DBHOST]" value="localhost" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_DBHOST</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC数据库名:</th>
+<td><input type="text" name="uc[UC_DBNAME]" value="" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_DBNAME</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC数据库用户名:</th>
+<td><input type="text" name="uc[UC_DBUSER]" value="" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_DBUSER</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC数据库密码:</th>
+<td><input type="password" name="uc[UC_DBPW]" value="" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_DBPW</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC数据表前缀:</th>
+<td><input type="text" name="uc[UC_DBTABLEPRE]" value="" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_DBTABLEPRE</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC通信密钥:</th>
+<td><input type="text" name="uc[UC_KEY]" value="" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_KEY</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC API地址:</th>
+<td><input type="text" name="uc[UC_API]" value="" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_API</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC 应用ID:</th>
+<td><input type="text" name="uc[UC_APPID]" value="" size="35" class="txt required"></td>
+<td>&nbsp;即：UC_APPID</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;UC_PPP:</th>
+<td><input type="text" name="uc[UC_PPP]" value="20" size="35" class="txt required"></td>
+<td>&nbsp;这个值通常不需要修改</td>
+</tr>
+
+<tr><th class="tbopt">&nbsp;</th>
+<td><input type="submit" value="下一步" class="btn">
+</td>
+<td>&nbsp;</td>
+</tr>
+
+</table>
+</form>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+			jQuery("#setting_form").validate();
+			jQuery('#founderpw').rules('add', {
+						 		required: true,
+								rangelength: [6,15]
+						});
+			jQuery('#founderpw2').rules('add', {
+						 		required: true,
+								equalTo: '#founderpw',
+								rangelength: [6,15]
+						});
+});
+</script>
+{template footer}

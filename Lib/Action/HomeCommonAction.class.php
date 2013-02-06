@@ -21,6 +21,7 @@ class HomeCommonAction extends CommonAction
     	}else{
     		C('URL_MODEL', 0);
     	}
+    	
     	//初始化用户信息
     	$this->_init_user();
     	//验证登陆
@@ -28,6 +29,7 @@ class HomeCommonAction extends CommonAction
     	//初始化开放平台信息
     	$this->_init_open_platform();
 	}
+	
 	
 	private function _init_user()
 	{
@@ -53,6 +55,7 @@ class HomeCommonAction extends CommonAction
 							  );
 			}
 		}
+		
     	if(! $this->isAjax() && ! $this->isPost()){
     		$this->assign('user', $this->_user);
     	}

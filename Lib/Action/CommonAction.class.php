@@ -86,7 +86,7 @@ class CommonAction extends Action
     protected function success($message,$jumpUrl='',$ajax=false) {
     	if(! $ajax) $this->assign('page_title', '提示信息 - ');
         parent::success($message,$jumpUrl,$ajax);
-        exit();
+        exit;
     }
     
     /**
